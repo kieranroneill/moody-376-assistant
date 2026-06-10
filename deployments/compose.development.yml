@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: ./build/package/api/Dockerfile.development
+    container_name: moody_376_assistant_api_dev
+    env_file:
+      - ../.env
+    image: kieranroneill/moody-376-assistant-api:development
+    networks:
+      - moody_376_assistant_dev_network
+    ports:
+      - '3000:3000'
+    volumes:
+      # watch for changes on source code
+      - ../api:/app/api:cached
+
+networks:
+  moody_376_assistant_dev_network:
+    name: moody_376_assistant_dev_network
