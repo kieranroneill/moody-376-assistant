@@ -1,0 +1,12 @@
+FROM ollama/ollama:latest
+
+# setup os
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# copy scripts
+COPY ./build/package/model/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

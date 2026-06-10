@@ -436,4 +436,5 @@ dist
 .pnp.*
 
 ### Project files
+.model/
 !build/

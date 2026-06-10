@@ -5,16 +5,37 @@ services:
       dockerfile: ./build/package/api/Dockerfile.development
     container_name: moody_376_assistant_api_dev
     env_file:
-      - ../.env
+      - ../.env.dev
     image: kieranroneill/moody-376-assistant-api:development
     networks:
-      - moody_376_assistant_dev_network
+      - moody_376_assistant_network_dev
     ports:
       - '3000:3000'
     volumes:
       # watch for changes on source code
       - ../api:/app/api:cached
 
+  model:
+    build:
+      context: ../
+      dockerfile: ./build/package/model/Dockerfile.development
+    container_name: moody_376_assistant_model_dev
+    env_file:
+      - ../.env.dev
+    healthcheck:
+      test: [ "CMD", "curl", "-fsS", "http://127.0.0.1:11434/api/tags" ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    image: kieranroneill/moody-376-assistant-model:development
+    networks:
+      - moody_376_assistant_network_dev
+    ports:
+      - '11434:11434'
+    volumes:
+      - ../.model:/root/.ollama
+
 networks:
-  moody_376_assistant_dev_network:
-    name: moody_376_assistant_dev_network
+  moody_376_assistant_network_dev:
+    name: moody_376_assistant_network_dev

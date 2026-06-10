@@ -3,7 +3,7 @@ SHELL := /bin/bash
 all: install
 
 dev:
-	docker compose -f ./deployments/compose.development.yml up --build
+	docker compose -f ./deployments/compose.development.yml up
 
 format:
 	@echo ">>> formatting javascript files"
