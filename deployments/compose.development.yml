@@ -10,7 +10,7 @@ services:
     networks:
       - moody_376_assistant_dev_network
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       # watch for changes on source code
       - ../api:/app/api:cached

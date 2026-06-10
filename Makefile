@@ -6,6 +6,8 @@ dev:
 	docker compose -f ./deployments/compose.development.yml up --build
 
 format:
+	@echo ">>> formatting javascript files"
+	pnpm format
 	@echo ">>> formatting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
