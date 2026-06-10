@@ -3,7 +3,7 @@ SHELL := /bin/bash
 all: install
 
 dev:
-	docker compose -f ./deployment/compose.development.yml up --build
+	docker compose -f ./deployments/compose.development.yml up --build
 
 format:
 	@echo ">>> formatting python files"
@@ -42,3 +42,6 @@ run_api:
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		python3 api/main.py
+
+start:
+	docker compose -f ./deployments/compose.yml up --build
