@@ -4,6 +4,9 @@ services:
       context: ../
       dockerfile: ./build/package/api/Dockerfile.development
     container_name: moody_376_assistant_api_dev
+    depends_on:
+      model:
+        condition: service_healthy
     env_file:
       - ../.env.dev
     image: kieranroneill/moody-376-assistant-api:development

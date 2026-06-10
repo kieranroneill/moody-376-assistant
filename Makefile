@@ -45,7 +45,7 @@ run_api:
 	@echo ">>> running api"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
-		python3 api/main.py
+		python3 -m api.main
 
 start:
 	docker compose -f ./deployments/compose.yml up --build
