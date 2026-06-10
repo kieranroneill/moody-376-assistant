@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+# setup os
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends \
+    build-essential \
+    curl
+RUN rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# copy source files
+COPY . /app
+
+# install api dependencies
+RUN pip install -r pip-requirements.txt && \
+		pip install -r dev-requirements.txt && \
+    pip install -r requirements.txt
+
+CMD ["python", "api/main.py"]
