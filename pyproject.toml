@@ -2,10 +2,9 @@
 name = "moody_376_assistant"
 version = "1.0.0"
 description = "The Moody 376 Assistant is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for the vessel."
-authors = [{
-  name = "Kieran O'Neill",
-  email = "hello@kieranoneill.com"
-}]
+authors = [
+  { name = "Kieran O'Neill", email = "hello@kieranoneill.com" }
+]
 readme = "README.md"
 requires-python = ">=3.11"
 

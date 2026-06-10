@@ -9,8 +9,8 @@ format:
 	@echo ">>> formatting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
-		isort . && \
-		black .
+		python3 -m isort . && \
+		python3 -m black .
 
 install:
 	${MAKE} install_dev
@@ -35,7 +35,7 @@ lint:
 	@echo ">>> linting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
-		flake8 .
+		python3 -m flake8 .
 
 run_api:
 	@echo ">>> running api"
