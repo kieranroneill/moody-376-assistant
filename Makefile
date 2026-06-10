@@ -13,19 +13,21 @@ format:
 		python3 -m black .
 
 install:
-	${MAKE} install_dev
-	${MAKE} install_deps
+	@echo ">>> installing javascript dependencies"
+	pnpm install
+	${MAKE} install_python_dev
+	${MAKE} install_python_deps
 
-install_dev:
-	@echo ">>> installing development dependencies"
+install_python_dev:
+	@echo ">>> installing python development dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		pip install -r pip-requirements.txt && \
 		pip install -r dev-requirements.txt && \
 		deactivate
 
-install_deps:
-	@echo ">>> installing dependencies"
+install_python_deps:
+	@echo ">>> installing python dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		pip install -r requirements.txt && \
