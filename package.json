@@ -1,0 +1,22 @@
+{
+  "name": "moody-376-assistant",
+  "private": true,
+  "description": "The Moody 376 Assistant is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for the vessel.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kieranroneill/moody-376-assistant"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.3.0",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@commitlint/types": "^21.0.1",
+    "husky": "^9.1.7"
+  }
+}
