@@ -16,5 +16,5 @@ runs:
         cache: 'pnpm'
         cache-dependency-path: '**/pnpm-lock.yaml'
     - name: '📦 Install'
-      run: pnpm --dir web install
+      run: pnpm install
       shell: bash
