@@ -3,7 +3,11 @@ SHELL := /bin/bash
 all: install
 
 dev:
-	docker compose -f ./deployments/compose.development.yml up
+	docker compose \
+	 	-f ./deployments/compose.development.yml \
+	 	--env-file .env.dev \
+		up \
+		--build
 
 format:
 	@echo ">>> formatting javascript files"
@@ -48,4 +52,8 @@ run_api:
 		python3 -m api.main
 
 start:
-	docker compose -f ./deployments/compose.yml up --build
+	docker compose \
+		-f ./deployments/compose.yml \
+		--env-file .env \
+		up \
+		--build

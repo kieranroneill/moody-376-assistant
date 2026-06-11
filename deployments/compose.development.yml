@@ -7,8 +7,10 @@ services:
     depends_on:
       model:
         condition: service_healthy
-    env_file:
-      - ../.env.dev
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-DEBUG}
+      MODEL: ${MODEL:-llama3.1:8b}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-http://model:11434}
     image: kieranroneill/moody-376-assistant-api:development
     networks:
       - moody_376_assistant_network_dev
@@ -17,14 +19,16 @@ services:
     volumes:
       # watch for changes on source code
       - ../api:/app/api:cached
+      - ../pyproject.toml:/app/pyproject.toml:cached
 
   model:
     build:
       context: ../
       dockerfile: ./build/package/model/Dockerfile.development
     container_name: moody_376_assistant_model_dev
-    env_file:
-      - ../.env.dev
+    environment:
+      MODEL: ${MODEL:-llama3.1:8b}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-http://model:11434}
     healthcheck:
       test: [ "CMD", "curl", "-fsS", "http://127.0.0.1:11434/api/tags" ]
       interval: 10s
