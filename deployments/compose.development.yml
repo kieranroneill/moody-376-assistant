@@ -43,6 +43,27 @@ services:
     volumes:
       - ../.model:/root/.ollama
 
+  web:
+    build:
+      context: ../
+      dockerfile: ./build/package/web/Dockerfile.development
+    container_name: moody_376_assistant_web_dev
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000}
+    image: kieranroneill/moody-376-assistant-web:development
+    networks:
+      - moody_376_assistant_network_dev
+    ports:
+      - '8080:3000'
+    volumes:
+      # watch for changes on web source code
+      - ../web:/app/web:cached
+      - ../package.json:/app/package.json:cached
+      - ../pnpm-lock.yaml:/app/pnpm-lock.yaml:cached
+
 networks:
   moody_376_assistant_network_dev:
     name: moody_376_assistant_network_dev
