@@ -46,10 +46,10 @@
 │   ├── package/                            <-- Docker image files
 │   │   ├── <service-name>/
 │   │   │   ├── Dockerfile
-│   │   │   └──  Dockerfile.development
+│   │   │   └── Dockerfile.development
 │   │   └── ...
 │   └── ...
-├─ deployments/                              <-- Container orchestration configurations
+├─ deployments/                             <-- Container orchestration configurations
 │   ├── compose.yml
 │   └── compose.development.yml
 ├─ web/

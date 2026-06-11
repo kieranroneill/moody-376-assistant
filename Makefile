@@ -54,6 +54,10 @@ run_api:
 	source .venv/bin/activate && \
 		python3 -m api.main
 
+run_web:
+	@echo ">>> running web"
+	pnpm start
+
 start:
 	docker compose \
 		-f ./deployments/compose.yml \
