@@ -33,3 +33,6 @@ enable = [
   "missing-module-docstring"
 ]
 ignore = ["setup.py", "__init__.py"]
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py"]

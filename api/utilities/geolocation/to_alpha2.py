@@ -38,6 +38,8 @@ COMMON_ALIASES = {
     "micronesia": "FM",
     "palestine": "PS",
     "czech republic": "CZ",
+    "cote divoire": "CI",
+    "ivory coast": "CI",
     "kosovo": "XK",  # widely used, not official ISO-3166-1 alpha-2
     "el": "GR",      # common unofficial shorthand for Greece
 }
@@ -59,11 +61,8 @@ def to_alpha2(value: str) -> str | None:
     raw = value.strip()
     normalized = normalize_country(raw)
 
-    if len(raw) == 2 and raw.isalpha():
-        alpha2 = raw.upper()
-
-        if pycountry.countries.get(alpha_2=alpha2):
-            return alpha2
+    if not normalized:
+        return None
 
     if normalized in COMMON_ALIASES:
         return COMMON_ALIASES[normalized]
@@ -73,11 +72,21 @@ def to_alpha2(value: str) -> str | None:
     if compact in COMMON_ALIASES:
         return COMMON_ALIASES[compact]
 
+    if len(raw) == 2 and raw.isalpha():
+        alpha2 = raw.upper()
+
+        if pycountry.countries.get(alpha_2=alpha2):
+            return alpha2
+
+        return None
+
     if len(compact) == 2 and compact.isalpha():
         alpha2 = compact.upper()
 
         if pycountry.countries.get(alpha_2=alpha2):
             return alpha2
+
+        return None
 
     country = pycountry.countries.get(name=raw)
 

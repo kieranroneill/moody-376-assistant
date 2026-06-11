@@ -19,12 +19,15 @@ format:
 		python3 -m black .
 
 install:
-	@echo ">>> installing javascript dependencies"
-	pnpm install
-	${MAKE} install_python_dev
+	${MAKE} install_javascript_deps
+	${MAKE} install_python_dev_deps
 	${MAKE} install_python_deps
 
-install_python_dev:
+install_javascript_deps:
+	@echo ">>> installing javascript dependencies"
+	pnpm install
+
+install_python_dev_deps:
 	@echo ">>> installing python development dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -57,3 +60,15 @@ start:
 		--env-file .env \
 		up \
 		--build
+
+test:
+	${MAKE} test_unit
+
+test_python_unit:
+	@echo ">>> running python unit tests"
+	python3 -m venv .venv
+	source .venv/bin/activate && \
+		python3 -m pytest -vv -s --log-cli-level=ERROR api
+
+test_unit:
+	${MAKE} test_python_unit
