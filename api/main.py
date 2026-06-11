@@ -4,7 +4,7 @@ import os
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
 
-from api.tools import get_weather_by_location
+from api import tools
 
 
 def main() -> None:
@@ -22,7 +22,7 @@ def main() -> None:
             "Use tool results as the source of truth."
             "Do not invent fields that are not present in the tool output."
         ),
-        tools=[get_weather_by_location],
+        tools=[tools.get_weather_by_location],
     )
 
     result = agent.invoke(

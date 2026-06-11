@@ -33,58 +33,67 @@ def get_weather_by_location(city: str, country_code: str | None = None) -> dict:
 
         params["countryCode"] = _country_code
 
-    response = requests.get(
-        "https://geocoding-api.open-meteo.com/v1/search",
-        params=params,
-        timeout=10,
-    )
+    try:
+        response = requests.get(
+            "https://geocoding-api.open-meteo.com/v1/search",
+            params=params,
+            timeout=10,
+        )
 
-    response.raise_for_status()
+        response.raise_for_status()
 
-    data = response.json()
+        data = response.json()
 
-    logging.debug("geocoding response:\n%s", json.dumps(data, indent=2))
+        logging.debug("geocoding response:\n%s", json.dumps(data, indent=2))
 
-    results = data.get("results", [])
+        results = data.get("results", [])
 
-    if not results:
-        logging.error("could not find location: %s", city)
+        if not results:
+            logging.error("could not find location: %s", city)
 
-        return {"error": f"Could not find location: {city}"}
+            return {"error": f"Could not find location: {city}"}
 
-    location = results[0]
-    latitude = location["latitude"]
-    longitude = location["longitude"]
+        location = results[0]
+        latitude = location["latitude"]
+        longitude = location["longitude"]
 
-    logging.debug(
-        "found location %s, %s at latitude=%s longitude=%s",
-        location["name"],
-        location.get("country"),
-        latitude,
-        longitude,
-    )
+        logging.debug(
+            "found location %s, %s at latitude=%s longitude=%s",
+            location["name"],
+            location.get("country"),
+            latitude,
+            longitude,
+        )
 
-    response = requests.get(
-        "https://api.open-meteo.com/v1/forecast",
-        params={
-            "current": "temperature_2m,relative_humidity_2m,weather_code",
+        response = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "current": "temperature_2m,relative_humidity_2m,weather_code",
+                "latitude": latitude,
+                "longitude": longitude,
+            },
+            timeout=(5, 20),
+        )
+
+        response.raise_for_status()
+
+        data = response.json()
+        result = {
+            "city": location["name"],
+            "country": location.get("country"),
+            "current": data.get("current", {}),
             "latitude": latitude,
             "longitude": longitude,
-        },
-        timeout=10,
-    )
+        }
 
-    response.raise_for_status()
+        logging.debug("weather result:\n%s", json.dumps(result, indent=2))
 
-    data = response.json()
-    result = {
-        "city": location["name"],
-        "country": location.get("country"),
-        "current": data.get("current", {}),
-        "latitude": latitude,
-        "longitude": longitude,
-    }
+        return result
+    except requests.exceptions.Timeout:
+        logging.exception("weather request timed out")
 
-    logging.debug("weather result:\n%s", json.dumps(result, indent=2))
+        return {"error": "Weather service request timed out"}
+    except requests.exceptions.RequestException:
+        logging.exception("weather request failed")
 
-    return result
+        return {"error": "Weather service request failed"}

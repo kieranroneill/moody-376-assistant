@@ -1,6 +1,3 @@
-import re
-import unicodedata
-
 import pycountry
 
 from .normalize_country import normalize_country

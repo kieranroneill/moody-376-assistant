@@ -42,7 +42,7 @@ install_python_deps:
 		pip install -r requirements.txt && \
 		deactivate
 
-lint:
+lint_python:
 	@echo ">>> linting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \

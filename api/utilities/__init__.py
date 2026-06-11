@@ -1,3 +1,3 @@
-from .geolocation import *
+from . import geolocation
 
 __all__ = ["geolocation"]
