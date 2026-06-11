@@ -8,10 +8,7 @@ from api.tools import get_weather_by_location
 
 
 def main() -> None:
-    logging.basicConfig(
-        format="%(levelname)s: %(message)s",
-        level=os.getenv("LOG_LEVEL", "INFO").upper()
-    )
+    logging.basicConfig(format="%(levelname)s: %(message)s", level=os.getenv("LOG_LEVEL", "INFO").upper())
 
     model = ChatOllama(
         base_url=os.getenv("MODEL_BASE_URL", "http://model:11434"),

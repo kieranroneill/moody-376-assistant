@@ -30,7 +30,7 @@ services:
       MODEL: ${MODEL:-llama3.1:8b}
       MODEL_BASE_URL: ${MODEL_BASE_URL:-http://model:11434}
     healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://127.0.0.1:11434/api/tags" ]
+      test: ['CMD', 'curl', '-fsS', 'http://127.0.0.1:11434/api/tags']
       interval: 10s
       timeout: 5s
       retries: 12

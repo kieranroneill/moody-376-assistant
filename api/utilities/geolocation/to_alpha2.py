@@ -41,7 +41,7 @@ COMMON_ALIASES = {
     "cote divoire": "CI",
     "ivory coast": "CI",
     "kosovo": "XK",  # widely used, not official ISO-3166-1 alpha-2
-    "el": "GR",      # common unofficial shorthand for Greece
+    "el": "GR",  # common unofficial shorthand for Greece
 }
 
 

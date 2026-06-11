@@ -1,6 +1,7 @@
 import re
 import unicodedata
 
+
 def normalize_country(value: str) -> str:
     """
     Normalize country input into a simplified lookup form.

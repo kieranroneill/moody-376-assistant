@@ -1,14 +1,12 @@
 import json
 import logging
+
 import requests
 
 from api import utilities
 
 
-def get_weather_by_location(
-    city: str,
-    country_code: str | None = None
-) -> dict:
+def get_weather_by_location(city: str, country_code: str | None = None) -> dict:
     """
     Get current weather for a given city.
 
@@ -71,7 +69,7 @@ def get_weather_by_location(
         params={
             "current": "temperature_2m,relative_humidity_2m,weather_code",
             "latitude": latitude,
-            "longitude": longitude
+            "longitude": longitude,
         },
         timeout=10,
     )
@@ -88,6 +86,5 @@ def get_weather_by_location(
     }
 
     logging.debug("weather result:\n%s", json.dumps(result, indent=2))
-
 
     return result
