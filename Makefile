@@ -19,15 +19,15 @@ format:
 		python3 -m black .
 
 install:
-	${MAKE} install_javascript_deps
-	${MAKE} install_python_dev_deps
-	${MAKE} install_python_deps
+	${MAKE} install_js_deps
+	${MAKE} install_py_dev_deps
+	${MAKE} install_py_deps
 
-install_javascript_deps:
+install_js_deps:
 	@echo ">>> installing javascript dependencies"
 	pnpm install
 
-install_python_dev_deps:
+install_py_dev_deps:
 	@echo ">>> installing python development dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -35,14 +35,14 @@ install_python_dev_deps:
 		pip install -r dev-requirements.txt && \
 		deactivate
 
-install_python_deps:
+install_py_deps:
 	@echo ">>> installing python dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		pip install -r requirements.txt && \
 		deactivate
 
-lint_python:
+lint_py:
 	@echo ">>> linting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -68,7 +68,7 @@ start:
 test:
 	${MAKE} test_unit
 
-test_python_unit:
+test_py_unit:
 	@echo ">>> running python unit tests"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
