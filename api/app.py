@@ -5,15 +5,14 @@ from fastapi import FastAPI
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
 
-from api import tools
-from api.routers import boat, chat
+from api import routers, tools
 
 
 def _app() -> FastAPI:
     app = FastAPI(lifespan=_lifespan, title="Boat Assistant API")
 
-    app.include_router(boat.router)
-    app.include_router(chat.router)
+    app.include_router(routers.boat.router)
+    app.include_router(routers.chat.router)
 
     return app
 
@@ -35,9 +34,11 @@ async def _lifespan(app: FastAPI):
         tools=[tools.get_weather_by_location],
     )
 
+    # attach the initialized agent so it is available for each route
     app.state.agent = agent
+
     yield
-    # cleanup here if you need it later
+    # cleanup...
 
 
 app = _app()

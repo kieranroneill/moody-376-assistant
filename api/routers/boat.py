@@ -1,11 +1,13 @@
 from fastapi import APIRouter
 
+from api import enums, schemas
+
 router = APIRouter(
-    prefix="/api/boat",
+    prefix=f"{enums.api.RouteEnum.BASE}{enums.api.RouteEnum.BOAT}",
     tags=["boat"],
 )
 
 
-@router.get("")
+@router.get("", response_model=schemas.boat.BoatResponse)
 async def boat():
-    return {"details": {"make": "Moody", "model": "376"}}
+    return schemas.boat.BoatResponse(details=schemas.boat.BoatDetails(make="Moody", model="376"))
