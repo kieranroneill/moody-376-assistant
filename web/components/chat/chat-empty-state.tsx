@@ -15,7 +15,7 @@ const SUGGESTIONS = [
   'Find the maintenance checklist for the engine',
 ];
 
-export function ChatEmptyState({ boat, onSelect }: { boat?: BoatDetails; onSelect: (prompt: string) => void }) {
+export function ChatEmptyState({ boat, onSelect }: { boat: BoatDetails | null; onSelect: (prompt: string) => void }) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 py-12 text-center">
       <div className="flex flex-col items-center gap-4">

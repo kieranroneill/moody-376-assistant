@@ -1,13 +1,11 @@
 from typing import Literal
-from uuid import UUID
-
-from pydantic import BaseModel
 
 from api import enums
 from api.schemas.errors import BaseErrorResponse
 
+from .base_chat_stream_event import BaseChatStreamEvent
 
-class ChatStreamErrorEvent(BaseModel):
+
+class ChatStreamErrorEvent(BaseChatStreamEvent):
     error: BaseErrorResponse
-    session_id: UUID
     type: Literal[enums.chat.ChatStreamEventTypeEnum.ERROR] = enums.chat.ChatStreamEventTypeEnum.ERROR

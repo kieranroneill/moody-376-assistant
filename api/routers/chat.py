@@ -19,7 +19,7 @@ async def chat(
     try:
         return await controller.chat(
             agent,
-            message=request.message,
+            content=request.content,
             session_id=request.session_id,
         )
     # TODO: handle more exceptions
@@ -62,15 +62,15 @@ async def chat_stream(
     try:
         return controller.chat_stream(
             agent,
-            message=request.message,
+            content=request.content,
             session_id=request.session_id,
         )
     # TODO: handle more exceptions
     except Exception as exception:
         raise HTTPException(
             status_code=500,
-            detail=schemas.chat.BaseErrorResponse(
+            detail=schemas.errors.BaseErrorResponse(
                 code=enums.api.ErrorCodeEnum.UNKNOWN,
                 message=str(exception),
-            ),
+            ).model_dump(),
         )

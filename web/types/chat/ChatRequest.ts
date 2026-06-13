@@ -1,9 +1,6 @@
-// types
-import type ChatRequestMessage from './ChatRequestMessage';
-
 interface ChatRequest {
-  sessionID?: string;
-  messages: ChatRequestMessage[];
+  content: string;
+  session_id?: string;
 }
 
 export default ChatRequest;

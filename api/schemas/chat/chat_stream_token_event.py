@@ -1,12 +1,12 @@
 from typing import Literal
-from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import Field
 
 from api import enums
 
+from .base_chat_stream_event import BaseChatStreamEvent
 
-class ChatStreamTokenEvent(BaseModel):
-    content: str
-    session_id: UUID
+
+class ChatStreamTokenEvent(BaseChatStreamEvent):
+    content: str = Field(..., min_length=1)
     type: Literal[enums.chat.ChatStreamEventTypeEnum.TOKEN] = enums.chat.ChatStreamEventTypeEnum.TOKEN

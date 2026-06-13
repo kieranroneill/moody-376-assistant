@@ -53,8 +53,8 @@ services:
     depends_on:
       - api
     environment:
+      API_BASE_URL: ${API_BASE_URL:-http://api:3000}
       NODE_ENV: development
-      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000}
     image: kieranroneill/moody-376-assistant-web:development
     networks:
       - moody_376_assistant_network_dev

@@ -4,10 +4,10 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 import { Menu, PanelRight } from 'lucide-react';
 
 // components
-import ContextRail from '@/components/context/ContextRail';
 import { Button } from '@/components/ui/button';
+import ChatPanel from '@/components/chat/ChatPanel';
+import ContextRail from '@/components/context/ContextRail';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ChatPanel } from '@/components/chat/chat-panel';
 
 // containers
 import Sidebar from '@/containers/Sidebar';
@@ -23,7 +23,14 @@ import useChatSessions from '@/hooks/useChatSessions';
 const App: FC = () => {
   // hooks
   const { boatContext, fetch: fetchBoatContext, loading: boatContextLoading } = useBoatContext();
-  const chat = useChatSession();
+  const {
+    error: chatError,
+    isStreaming,
+    messages,
+    send: sendChatMessage,
+    reset: resetChat,
+    retry: retryChatMessage,
+  } = useChatSession();
   const { fetch: fetchChatSessions, loading: chatSessionsLoading, sessions } = useChatSessions();
   // states
   const [contextOpen, setContextOpen] = useState(false);
@@ -40,9 +47,9 @@ const App: FC = () => {
   );
   const handleOnNavigationOpenClick = useCallback(() => setNavigationOpen(true), [setNavigationOpen]);
   const handleOnNewChat = useCallback(() => {
-    chat.reset();
+    resetChat();
     setNavigationOpen(false);
-  }, [chat, setNavigationOpen]);
+  }, [resetChat, setNavigationOpen]);
 
   useEffect(() => {
     void fetchBoatContext();
@@ -94,7 +101,14 @@ const App: FC = () => {
         </header>
 
         <div className="min-h-0 flex-1">
-          <ChatPanel boat={boatContext?.details} chat={chat} />
+          <ChatPanel
+            boatDetails={boatContext?.details || null}
+            error={chatError}
+            isStreaming={isStreaming}
+            messages={messages}
+            sendMessage={sendChatMessage}
+            retryMessage={retryChatMessage}
+          />
         </div>
       </main>
 
