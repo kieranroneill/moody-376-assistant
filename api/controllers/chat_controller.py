@@ -4,6 +4,7 @@ from typing import Any
 from uuid import UUID
 
 from fastapi.responses import StreamingResponse
+from langgraph.graph.state import CompiledStateGraph
 
 from api import enums, schemas
 
@@ -118,7 +119,7 @@ class ChatController:
         ...
 
         Args:
-            agent (...): The initialized LangChain agent.
+            agent (CompiledStateGraph): The initialized LangChain agent.
 
         Raises:
         """
@@ -159,7 +160,7 @@ class ChatController:
         ...
 
         Args:
-            agent (...): The initialized LangChain agent.
+            agent (CompiledStateGraph): The initialized LangChain agent.
 
         Raises:
         """
