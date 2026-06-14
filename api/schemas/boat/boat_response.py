@@ -2,8 +2,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from .boat_details import BoatDetails
+from .boat_specification import BoatSpecification
 
 
 class BoatResponse(BaseModel):
-    details: BoatDetails
+    specification: BoatSpecification

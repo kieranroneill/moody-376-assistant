@@ -1,0 +1,45 @@
+{
+  "builder": "Marine Projects Ltd.",
+  "construction": "GRP",
+  "designer": "Bill Dixon",
+  "dimensions": {
+    "ballast_kg": 2948,
+    "beam_mm": 3810,
+    "displacement_kg": 7371,
+    "draft_mm": 1680,
+    "loa_mm": 11530,
+    "lwl_mm": 9500
+  },
+  "engine": {
+    "cooling": "freshwater",
+    "drive": "shaft",
+    "fuel_type": "diesel",
+    "gearbox": "ZF 10 M",
+    "horsepower_hp": 35,
+    "make": "Thornycroft",
+    "model": "T80",
+    "propeller": "fixed 3-blade"
+  },
+  "first_built": 1985,
+  "hull_type": "Fin with rudder on skeg",
+  "last_built": 1991,
+  "make": "Moody",
+  "model": "376",
+  "rigging": {
+    "e_mm": 4320,
+    "forestay_length_mm": 15040,
+    "i_mm": 14330,
+    "j_mm": 4570,
+    "p_mm": 12600,
+    "type": "Masthead Sloop"
+  },
+  "sail_areas": {
+    "fore_cm2": 327500,
+    "main_cm2": 271900,
+    "reported_cm2": 602000
+  },
+  "tanks": {
+    "fuel_capacity_l": 204,
+    "water_capacity_l": 250
+  }
+}

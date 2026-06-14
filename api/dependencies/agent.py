@@ -1,5 +1,5 @@
 from fastapi import Request
 
 
-def get_agent(request: Request):
+def agent(request: Request):
     return request.app.state.agent

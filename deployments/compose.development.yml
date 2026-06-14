@@ -22,6 +22,7 @@ services:
     volumes:
       # watch for changes on source code
       - ../api:/app/api:cached
+      - ../data:/app/data:cached
       - ../pyproject.toml:/app/pyproject.toml:cached
 
   model:

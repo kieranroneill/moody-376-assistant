@@ -1,5 +1,6 @@
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from langchain.agents import create_agent
@@ -36,6 +37,7 @@ async def _lifespan(app: FastAPI):
 
     # attach the initialized agent so it is available for each route
     app.state.agent = agent
+    app.state.data_path = Path(__file__).resolve().parent.parent / "data"
 
     yield
     # cleanup...

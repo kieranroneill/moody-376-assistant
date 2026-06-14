@@ -1,6 +1,10 @@
+import type { NextPage } from 'next';
+
 // containers
 import App from '@/containers/App';
 
-export default function Page() {
+const Page: NextPage = () => {
   return <App />;
-}
+};
+
+export default Page;

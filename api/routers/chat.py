@@ -12,7 +12,7 @@ router = APIRouter(
 @router.post("", response_model=schemas.chat.ChatResponse)
 async def chat(
     request: schemas.chat.ChatRequest,
-    agent=Depends(dependencies.get_agent),
+    agent=Depends(dependencies.agent),
 ):
     controller = controllers.ChatController()
 
@@ -55,7 +55,7 @@ async def chat(
 )
 async def chat_stream(
     request: schemas.chat.ChatRequest,
-    agent=Depends(dependencies.get_agent),
+    agent=Depends(dependencies.agent),
 ):
     controller = controllers.ChatController()
 
