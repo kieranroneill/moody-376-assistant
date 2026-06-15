@@ -1,9 +1,9 @@
 // types
-import type { BoatDetails } from '@/types/boat';
+import type { BoatSpecification } from '@/types/boat';
 import type { ChatMessage } from '@/types/chat';
 
 interface Props {
-  boatDetails: BoatDetails | null;
+  boatDetails: BoatSpecification | null;
   error: string | null;
   isStreaming: boolean;
   messages: ChatMessage[];

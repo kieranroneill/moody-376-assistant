@@ -9,9 +9,9 @@ router = APIRouter(
 )
 
 
-@router.post("", response_model=schemas.chat.ChatResponse)
+@router.post("", response_model=schemas.chat.ChatResponseSchema)
 async def chat(
-    request: schemas.chat.ChatRequest,
+    request: schemas.chat.ChatRequestSchema,
     agent=Depends(dependencies.agent),
 ):
     controller = controllers.ChatController()
@@ -26,7 +26,7 @@ async def chat(
     except Exception as exception:
         raise HTTPException(
             status_code=500,
-            detail=schemas.errors.BaseErrorResponse(
+            detail=schemas.errors.BaseErrorResponseSchema(
                 code=enums.api.ErrorCodeEnum.UNKNOWN,
                 message=str(exception),
             ),
@@ -43,9 +43,9 @@ async def chat(
                 "text/event-stream": {
                     "schema": {
                         "anyOf": [
-                            schemas.chat.ChatStreamDoneEvent.model_json_schema(),
-                            schemas.chat.ChatStreamErrorEvent.model_json_schema(),
-                            schemas.chat.ChatStreamTokenEvent.model_json_schema(),
+                            schemas.chat.ChatStreamDoneEventSchema.model_json_schema(),
+                            schemas.chat.ChatStreamErrorEventSchema.model_json_schema(),
+                            schemas.chat.ChatStreamTokenEventSchema.model_json_schema(),
                         ]
                     }
                 }
@@ -54,7 +54,7 @@ async def chat(
     },
 )
 async def chat_stream(
-    request: schemas.chat.ChatRequest,
+    request: schemas.chat.ChatRequestSchema,
     agent=Depends(dependencies.agent),
 ):
     controller = controllers.ChatController()
@@ -69,7 +69,7 @@ async def chat_stream(
     except Exception as exception:
         raise HTTPException(
             status_code=500,
-            detail=schemas.errors.BaseErrorResponse(
+            detail=schemas.errors.BaseErrorResponseSchema(
                 code=enums.api.ErrorCodeEnum.UNKNOWN,
                 message=str(exception),
             ).model_dump(),

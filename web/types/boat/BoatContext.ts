@@ -3,7 +3,7 @@ import { ConnectionStatusEnum } from '@/enums/api';
 
 // types
 import type {
-  BoatDetails,
+  BoatSpecification,
   InstrumentReading,
   LogbookEntry,
   MaintenanceItem,
@@ -15,13 +15,13 @@ import type { WeatherSnapshot } from '@/types/weather';
 
 interface BoatContext {
   alerts: Alert[];
-  details: BoatDetails;
   connection: ConnectionStatusEnum;
   consumers: PowerConsumer[];
   instruments: InstrumentReading[];
   logbook: LogbookEntry[];
   maintenance: MaintenanceItem[];
   power: PowerReading;
+  specification: BoatSpecification;
   weather: WeatherSnapshot;
 }
 

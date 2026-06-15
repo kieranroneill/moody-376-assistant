@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 
-class BoatEngine(BaseModel):
+class BoatEngineSchema(BaseModel):
     cooling: str | None = None
     drive: str
     fuel_type: str = Field(..., min_length=1)

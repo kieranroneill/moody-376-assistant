@@ -4,7 +4,7 @@ import { Anchor } from 'lucide-react';
 import { QuickPrompts } from '@/components/chat/quick-prompts';
 
 // types
-import type { BoatDetails } from '@/types/boat';
+import type { BoatSpecification } from '@/types/boat';
 
 const SUGGESTIONS = [
   'How do I troubleshoot the freshwater pump?',
@@ -15,7 +15,13 @@ const SUGGESTIONS = [
   'Find the maintenance checklist for the engine',
 ];
 
-export function ChatEmptyState({ boat, onSelect }: { boat: BoatDetails | null; onSelect: (prompt: string) => void }) {
+export function ChatEmptyState({
+  boat,
+  onSelect,
+}: {
+  boat: BoatSpecification | null;
+  onSelect: (prompt: string) => void;
+}) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 py-12 text-center">
       <div className="flex flex-col items-center gap-4">

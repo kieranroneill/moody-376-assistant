@@ -33,7 +33,7 @@
     "p_mm": 12600,
     "type": "Masthead Sloop"
   },
-  "sail_areas": {
+  "sail_area": {
     "fore_cm2": 327500,
     "main_cm2": 271900,
     "reported_cm2": 602000

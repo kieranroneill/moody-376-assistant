@@ -13,7 +13,7 @@ import type { BoatContext } from '@/types/boat';
 // The real data is fetched from /api/context and /api/sessions.
 
 export const mockContext: BoatContext = {
-  details: {
+  specification: {
     id: 'boat-1',
     name: 'Blaise',
     model: '376',

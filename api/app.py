@@ -1,12 +1,15 @@
-import os
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
-from langchain.agents import create_agent
-from langchain_ollama import ChatOllama
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
-from api import routers, tools
+from api import routers, utilities
 
 
 def _app() -> FastAPI:
@@ -19,28 +22,22 @@ def _app() -> FastAPI:
 
 
 @asynccontextmanager
-async def _lifespan(app: FastAPI):
-    model = ChatOllama(
-        base_url=os.getenv("MODEL_BASE_URL", "http://model:11434"),
-        model=os.getenv("MODEL", "llama3.1:8b"),
-        temperature=0,
-    )
-    agent = create_agent(
-        model=model,
-        system_prompt=(
-            "You are a helpful assistant. "
-            "Use tool results as the source of truth. "
-            "Do not invent fields that are not present in the tool output."
-        ),
-        tools=[tools.get_weather_by_location],
-    )
+async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
+    database_engine = create_async_engine(utilities.database.url(), pool_pre_ping=True)
 
-    # attach the initialized agent so it is available for each route
-    app.state.agent = agent
+    # attach the initialized agent, database (session factory) and data path so it is available for each route via dependencies
+    app.state.database = async_sessionmaker(
+        bind=database_engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
+        autoflush=False,
+    )
+    app.state.agent = utilities.agent.initialize()
     app.state.data_path = Path(__file__).resolve().parent.parent / "data"
 
     yield
-    # cleanup...
+    # cleanup
+    await database_engine.dispose()
 
 
 app = _app()

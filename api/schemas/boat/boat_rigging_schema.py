@@ -1,10 +1,10 @@
 from pydantic import BaseModel, Field
 
 
-class BoatRigging(BaseModel):
+class BoatRiggingSchema(BaseModel):
     e_mm: int | None = None
     forestay_length_mm: int
-    i_m: int | None = None
-    j_m: int | None = None
-    p_m: int | None = None
+    i_mm: int | None = None
+    j_mm: int | None = None
+    p_mm: int | None = None
     type: str = Field(..., min_length=1)

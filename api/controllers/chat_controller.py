@@ -17,7 +17,7 @@ class ChatController:
 
     async def _build_chat_event_stream(
         self,
-        agent: Any,
+        agent: CompiledStateGraph,
         messages: list[dict[str, Any]],
         session_id: UUID,
     ):
@@ -41,7 +41,7 @@ class ChatController:
 
                 if current_time - last_flush_time >= flush_interval_seconds:
                     yield self._to_sse(
-                        schemas.chat.ChatStreamTokenEvent(
+                        schemas.chat.ChatStreamTokenEventSchema(
                             content="".join(pending_content),
                             message_id=message_id,
                             session_id=session_id,
@@ -53,7 +53,7 @@ class ChatController:
 
             if pending_content:
                 yield self._to_sse(
-                    schemas.chat.ChatStreamTokenEvent(
+                    schemas.chat.ChatStreamTokenEventSchema(
                         content="".join(pending_content),
                         message_id=message_id,
                         session_id=session_id,
@@ -63,7 +63,7 @@ class ChatController:
                 pending_content.clear()
 
             yield self._to_sse(
-                schemas.chat.ChatStreamDoneEvent(
+                schemas.chat.ChatStreamDoneEventSchema(
                     message_id=message_id,
                     session_id=session_id,
                     timestamp=utilities.datetime.timestamp(),
@@ -74,8 +74,8 @@ class ChatController:
             raise
         except Exception as exception:
             yield self._to_sse(
-                schemas.chat.ChatStreamErrorEvent(
-                    error=schemas.errors.BaseErrorResponse(
+                schemas.chat.ChatStreamErrorEventSchema(
+                    error=schemas.errors.BaseErrorResponseSchema(
                         code=500,
                         message=str(exception),
                     ),
@@ -142,7 +142,7 @@ class ChatController:
         agent,
         content: str,
         session_id: UUID | None,
-    ) -> schemas.chat.ChatResponse:
+    ) -> schemas.chat.ChatResponseSchema:
         """
         ...
 
@@ -152,7 +152,6 @@ class ChatController:
         Raises:
         """
         _session_id = session_id or uuid.uuid4()
-        message_id = uuid.uuid4()
         result = await agent.ainvoke(
             {
                 "messages": [
@@ -166,12 +165,12 @@ class ChatController:
         last = result["messages"][-1]
         response_content = getattr(last, "content", None)
 
-        if not isinstance(content, str):
+        if not isinstance(response_content, str):
             response_content = str(response_content)
 
-        return schemas.chat.ChatResponse(
+        return schemas.chat.ChatResponseSchema(
             messages=[
-                schemas.chat.ChatMessage(
+                schemas.chat.ChatMessageSchema(
                     content=response_content,
                     id=uuid.uuid4(),
                     role=enums.chat.MessageRoleEnum.ASSISTANT,
@@ -183,7 +182,7 @@ class ChatController:
 
     def chat_stream(
         self,
-        agent,
+        agent: CompiledStateGraph,
         content: str,
         session_id: UUID | None,
     ) -> StreamingResponse:

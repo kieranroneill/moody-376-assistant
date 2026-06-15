@@ -1,3 +1,3 @@
-from .base_error_response import BaseErrorResponse
+from .base_error_response_schema import BaseErrorResponseSchema
 
-__all__ = ["BaseErrorResponse"]
+__all__ = ["BaseErrorResponseSchema"]

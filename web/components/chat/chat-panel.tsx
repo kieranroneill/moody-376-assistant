@@ -14,7 +14,7 @@ import { QuickPrompts } from '@/components/chat/quick-prompts';
 import useChatSession from '@/hooks/useChatSession';
 
 // types
-import type { BoatDetails } from '@/types/boat';
+import type { BoatSpecification } from '@/types/boat';
 
 export interface ChatPanelHandle {
   send: (prompt: string) => void;
@@ -26,7 +26,7 @@ export function ChatPanel({
   onOpenContext,
   chat,
 }: {
-  boat?: BoatDetails;
+  boat?: BoatSpecification;
   onOpenContext?: () => void;
   chat: ReturnType<typeof useChatSession>;
 }) {

@@ -5,6 +5,8 @@ services:
       dockerfile: ./build/package/api/Dockerfile.development
     container_name: moody_376_assistant_api_dev
     depends_on:
+      database:
+        condition: service_healthy
       model:
         condition: service_healthy
     environment:
@@ -14,6 +16,11 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-DEBUG}
       MODEL: ${MODEL:-llama3.1:8b}
       MODEL_BASE_URL: ${MODEL_BASE_URL:-http://model:11434}
+      POSTGRES_DB: ${POSTGRES_DB:-boat_assistant}
+      POSTGRES_HOST: ${POSTGRES_HOST:-database}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
     image: kieranroneill/moody-376-assistant-api:development
     networks:
       - moody_376_assistant_network_dev
@@ -24,6 +31,25 @@ services:
       - ../api:/app/api:cached
       - ../data:/app/data:cached
       - ../pyproject.toml:/app/pyproject.toml:cached
+
+  database:
+    container_name: moody_376_assistant_database_dev
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-boat_assistant}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d ${POSTGRES_DB:-boat_assistant} -U ${POSTGRES_USER:-postgres}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - moody_376_assistant_network_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - ../.database:/var/lib/postgresql/data
 
   model:
     build:

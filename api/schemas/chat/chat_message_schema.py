@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from api import enums
 
 
-class ChatMessage(BaseModel):
+class ChatMessageSchema(BaseModel):
     content: str = Field(..., min_length=1)
     id: UUID
     role: Literal[enums.chat.MessageRoleEnum.ASSISTANT, enums.chat.MessageRoleEnum.USER]

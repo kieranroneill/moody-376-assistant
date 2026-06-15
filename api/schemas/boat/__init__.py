@@ -1,17 +1,19 @@
-from .boat_dimensions import BoatDimensions
-from .boat_engine import BoatEngine
-from .boat_response import BoatResponse
-from .boat_rigging import BoatRigging
-from .boat_sail_area import BoatSailArea
-from .boat_specification import BoatSpecification
-from .boat_tanks import BoatTanks
+from .boat_dimensions_schema import BoatDimensionsSchema
+from .boat_engine_schema import BoatEngineSchema
+from .boat_profile_schema import BoatProfileSchema
+from .boat_response_schema import BoatResponseSchema
+from .boat_rigging_schema import BoatRiggingSchema
+from .boat_sail_area_schema import BoatSailAreaSchema
+from .boat_specification_schema import BoatSpecificationSchema
+from .boat_tanks_schema import BoatTanksSchema
 
 __all__ = [
-    "BoatDimensions",
-    "BoatEngine",
-    "BoatResponse",
-    "BoatRigging",
-    "BoatSailArea",
-    "BoatSpecification",
-    "BoatTanks",
+    "BoatDimensionsSchema",
+    "BoatEngineSchema",
+    "BoatProfileSchema",
+    "BoatResponseSchema",
+    "BoatRiggingSchema",
+    "BoatSailAreaSchema",
+    "BoatSpecificationSchema",
+    "BoatTanksSchema",
 ]

@@ -1,4 +1,4 @@
-interface BoatDetails {
+interface BoatSpecification {
   callSign?: string;
   homePort: string;
   hullID?: string;
@@ -11,4 +11,4 @@ interface BoatDetails {
   year: number;
 }
 
-export default BoatDetails;
+export default BoatSpecification;

@@ -62,7 +62,7 @@ const App: FC = () => {
       <aside className="hidden w-72 shrink-0 border-r border-border lg:block">
         <Sidebar
           activeNavigation={activeNavigation}
-          boatDetails={boatContext?.details}
+          boatDetails={boatContext?.specification}
           connection={boatContext?.connection ?? ConnectionStatusEnum.Syncing}
           sessions={sessions}
           loading={boatContextLoading}
@@ -87,10 +87,12 @@ const App: FC = () => {
             </Button>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{boatContext?.details?.name ?? 'Helm Assistant'}</p>
+              <p className="truncate text-sm font-semibold">{boatContext?.specification?.name ?? 'Helm Assistant'}</p>
 
               <p className="truncate text-xs text-muted-foreground">
-                {boatContext?.details ? `${boatContext.details.make} ${boatContext.details.model}` : 'Connecting…'}
+                {boatContext?.specification
+                  ? `${boatContext.specification.make} ${boatContext.specification.model}`
+                  : 'Connecting…'}
               </p>
             </div>
           </div>
@@ -102,7 +104,7 @@ const App: FC = () => {
 
         <div className="min-h-0 flex-1">
           <ChatPanel
-            boatDetails={boatContext?.details || null}
+            boatDetails={boatContext?.specification || null}
             error={chatError}
             isStreaming={isStreaming}
             messages={messages}
@@ -128,7 +130,7 @@ const App: FC = () => {
 
           <Sidebar
             activeNavigation={activeNavigation}
-            boatDetails={boatContext?.details}
+            boatDetails={boatContext?.specification}
             connection={boatContext?.connection ?? ConnectionStatusEnum.Syncing}
             sessions={sessions}
             loading={boatContextLoading || chatSessionsLoading}

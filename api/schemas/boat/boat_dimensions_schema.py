@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class BoatDimensions(BaseModel):
+class BoatDimensionsSchema(BaseModel):
     ballast_kg: int | None = None
     beam_mm: int
     displacement_kg: int | None = None

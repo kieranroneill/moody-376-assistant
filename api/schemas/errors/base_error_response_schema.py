@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
 
-class BaseErrorResponse(BaseModel):
+class BaseErrorResponseSchema(BaseModel):
     code: int
     message: str

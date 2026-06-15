@@ -69,7 +69,7 @@ const ContextRail: FC<Props> = ({ context, loading }) => {
     );
   }
 
-  const { details, weather, power, consumers, instruments, maintenance, logbook, alerts } = context;
+  const { specification, weather, power, consumers, instruments, maintenance, logbook, alerts } = context;
 
   return (
     <div className="flex flex-col gap-4">
@@ -103,15 +103,15 @@ const ContextRail: FC<Props> = ({ context, loading }) => {
 
       {/* Boat summary */}
       <ContextCard title="Boat" icon={<Ship className="size-4" />}>
-        <p className="text-sm font-semibold">{details.name}</p>
+        <p className="text-sm font-semibold">{specification.name}</p>
         <p className="text-xs text-muted-foreground">
-          {details.make} {details.model} · {details.year}
+          {specification.make} {specification.model} · {specification.year}
         </p>
         <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-          <Stat label="Length" value={`${details.lengthMeters} m`} />
-          <Stat label="Home port" value={details.homePort} />
-          {details.callSign && <Stat label="Call sign" value={details.callSign} />}
-          {details.hullID && <Stat label="Hull ID" value={details.hullID} />}
+          <Stat label="Length" value={`${specification.lengthMeters} m`} />
+          <Stat label="Home port" value={specification.homePort} />
+          {specification.callSign && <Stat label="Call sign" value={specification.callSign} />}
+          {specification.hullID && <Stat label="Hull ID" value={specification.hullID} />}
         </dl>
       </ContextCard>
 

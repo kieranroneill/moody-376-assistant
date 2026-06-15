@@ -8,10 +8,10 @@ router = APIRouter(
 )
 
 
-@router.get("", response_model=schemas.boat.BoatResponse)
-async def boat(
-    data_path=Depends(dependencies.data_path),
-):
+@router.get("", response_model=schemas.boat.BoatResponseSchema)
+async def boat(data_path=Depends(dependencies.data_path), database=Depends(dependencies.database)):
     controller = controllers.BoatController()
 
-    return await controller.boat(specification_path=data_path / "static" / "boat_specification.json")
+    return await controller.boat(
+        specification_path=data_path / "static" / "boat_specification.json", database=database, profile_id="test"
+    )
