@@ -1,11 +1,9 @@
-// enums
-import { AssistantActivityEnum } from '@/enums/chat';
-
 // types
+import type { ActivityMessage } from '@/types/chat';
 import type { BasicComponentProps } from '@/types/ui';
 
 interface Props extends BasicComponentProps {
-  activity: AssistantActivityEnum;
+  activity: ActivityMessage;
 }
 
 export default Props;

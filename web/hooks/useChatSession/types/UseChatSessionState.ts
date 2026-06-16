@@ -1,11 +1,8 @@
-// enums
-import { AssistantActivityEnum } from '@/enums/chat';
-
 // types
-import type { ChatMessage } from '@/types/chat';
+import type { ActivityMessage, ChatMessage } from '@/types/chat';
 
 interface UseChatSessionState {
-  activity: AssistantActivityEnum | null;
+  activity: ActivityMessage | null;
   error: string | null;
   isStreaming: boolean;
   messages: ChatMessage[];

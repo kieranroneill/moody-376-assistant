@@ -7,6 +7,7 @@ import { type FC, useEffect, useMemo, useRef } from 'react';
 import ActivityPill from '@/components/chat/ActivityPill';
 import MessageBubble from '@/components/chat/MessageBubble';
 import MessagePill from '@/components/chat/MessagePill';
+import ThinkingPill from '@/components/chat/ThinkingPill';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -34,6 +35,14 @@ const ChatPanel: FC<Props> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   // memos
   const hasMessages = useMemo(() => messages.length > 0, [messages]);
+  const hasStreamingAssistantMessage = useMemo(
+    () => messages.some((message) => message.role === MessageRoleEnum.Assistant && message.streaming),
+    [messages]
+  );
+  const showThinking = useMemo(
+    () => isStreaming && !activity && !hasStreamingAssistantMessage,
+    [activity, hasStreamingAssistantMessage, isStreaming]
+  );
 
   useEffect(() => {
     const element = scrollRef.current;
@@ -74,8 +83,14 @@ const ChatPanel: FC<Props> = ({
           ))}
 
           {activity && (
-            <MessageBubble role={MessageRoleEnum.Assistant} timestamp={new Date().toISOString()}>
+            <MessageBubble role={MessageRoleEnum.Assistant}>
               <ActivityPill activity={activity} />
+            </MessageBubble>
+          )}
+
+          {showThinking && (
+            <MessageBubble role={MessageRoleEnum.Assistant}>
+              <ThinkingPill />
             </MessageBubble>
           )}
 

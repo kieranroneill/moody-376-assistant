@@ -4,7 +4,6 @@ enum AssistantActivityEnum {
   ManualLookup = 'manual_lookup',
   ReviewLog = 'review_log',
   SystemCheck = 'system_check',
-  Thinking = 'thinking',
   WeatherCheck = 'weather_check',
 }
 

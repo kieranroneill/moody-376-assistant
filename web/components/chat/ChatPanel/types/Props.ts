@@ -1,12 +1,9 @@
-// enums
-import { AssistantActivityEnum } from '@/enums/chat';
-
 // types
 import type { BoatSpecification } from '@/types/boat';
-import type { ChatMessage } from '@/types/chat';
+import type { ActivityMessage, ChatMessage } from '@/types/chat';
 
 interface Props {
-  activity: AssistantActivityEnum | null;
+  activity: ActivityMessage | null;
   boatDetails: BoatSpecification | null;
   error: string | null;
   isStreaming: boolean;

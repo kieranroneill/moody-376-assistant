@@ -31,7 +31,7 @@ const MessageBubble: FC<Props> = ({ children, role, timestamp }) => {
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span className="font-medium text-foreground">{isUser ? 'You' : 'Assistant'}</span>
 
-          <time dateTime={timestamp}>{formatTime(timestamp)}</time>
+          {timestamp && <time dateTime={timestamp}>{formatTime(timestamp)}</time>}
         </div>
 
         {children}

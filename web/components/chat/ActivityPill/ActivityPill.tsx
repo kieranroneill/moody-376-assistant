@@ -1,45 +1,26 @@
-import { BookOpen, BatteryCharging, ClipboardList, Cpu, CloudSun, Loader } from 'lucide-react';
-import { type FC, useMemo } from 'react';
+import { BookOpen, BatteryCharging, ClipboardList, Cpu, CloudSun, type LucideProps } from 'lucide-react';
+import { type FC, type ForwardRefExoticComponent, type RefAttributes, useMemo } from 'react';
 
 // enums
 import { AssistantActivityEnum } from '@/enums/chat';
 
 // types
-import type { ActivityConfig, Props } from './types';
+import type { Props } from './types';
 
 // utilities
 import { cn } from '@/utilities/styles';
 
 const ActivityPill: FC<Props> = ({ activity, className }) => {
   // memos
-  const { Icon, label } = useMemo<ActivityConfig>(
+  const Icon = useMemo<ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>>(
     () =>
       ({
-        [AssistantActivityEnum.ManualLookup]: {
-          Icon: BookOpen,
-          label: 'Lookup manual',
-        },
-        [AssistantActivityEnum.PowerCheck]: {
-          Icon: BatteryCharging,
-          label: 'Checking power data',
-        },
-        [AssistantActivityEnum.ReviewLog]: {
-          Icon: ClipboardList,
-          label: 'Reviewing logbook',
-        },
-        [AssistantActivityEnum.SystemCheck]: {
-          Icon: Cpu,
-          label: 'Inspecting onboard systems',
-        },
-        [AssistantActivityEnum.Thinking]: {
-          Icon: Loader,
-          label: 'Thinking',
-        },
-        [AssistantActivityEnum.WeatherCheck]: {
-          Icon: CloudSun,
-          label: 'Checking weather',
-        },
-      })[activity],
+        [AssistantActivityEnum.ManualLookup]: BookOpen,
+        [AssistantActivityEnum.PowerCheck]: BatteryCharging,
+        [AssistantActivityEnum.ReviewLog]: ClipboardList,
+        [AssistantActivityEnum.SystemCheck]: Cpu,
+        [AssistantActivityEnum.WeatherCheck]: CloudSun,
+      })[activity.activity],
     [activity]
   );
 
@@ -52,7 +33,7 @@ const ActivityPill: FC<Props> = ({ activity, className }) => {
     >
       <Icon className="size-3.5 animate-pulse" aria-hidden="true" />
 
-      {label}
+      {activity.content}
 
       <span className="sr-only">in progress</span>
     </span>

@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import time
 import uuid
 from typing import Any
@@ -25,13 +26,38 @@ class ChatController:
         last_flush_time = time.monotonic()
         message_id = uuid.uuid4()
         pending_content: list[str] = []
+        last_activity: enums.chat.AssistantActivityEnum | None = None
 
         try:
             async for chunk, metadata in agent.astream(
                 {"messages": messages},
                 stream_mode="messages",
             ):
-                text = self._extract_chunk_text(chunk)
+                # 1. check for tool
+                if utilities.agent.is_tool_call_chunk(chunk):
+                    tool_name = utilities.agent.tool_name_from_chunk(chunk)
+                    activity = utilities.chat.activity_from_tool_name(tool_name) if tool_name else None
+
+                    if activity and activity.activity != last_activity:
+                        yield self._to_sse(
+                            schemas.chat.ChatStreamActivityEventSchema(
+                                activity=activity.activity,
+                                content=activity.content,
+                                message_id=message_id,
+                                session_id=session_id,
+                            )
+                        )
+
+                        last_activity = activity.activity
+
+                # 2. log tool result chunk
+                if utilities.agent.is_tool_result_chunk(chunk):
+                    logging.debug(chunk)
+
+                    continue
+
+                # 3. assistant answer chunk
+                text = utilities.agent.text_from_chunk(chunk)
 
                 if not text:
                     continue
@@ -83,52 +109,6 @@ class ChatController:
                     session_id=session_id,
                 )
             )
-
-    def _extract_chunk_text(self, chunk: Any) -> str:
-        """
-        ...
-
-        Args:
-            chunk (Any): ...
-
-        Returns:
-            (str): Returns ...
-        """
-        content = getattr(chunk, "content", None)
-
-        if isinstance(content, str):
-            return content
-
-        if isinstance(content, list):
-            parts: list[str] = []
-
-            for item in content:
-                if isinstance(item, str):
-                    parts.append(item)
-
-                if isinstance(item, dict) and item.get("type") == "text":
-                    text = item.get("text")
-
-                    if isinstance(text, str):
-                        parts.append(text)
-
-            return "".join(parts)
-
-        content_blocks = getattr(chunk, "content_blocks", None)
-
-        if isinstance(content_blocks, list):
-            parts: list[str] = []
-
-            for block in content_blocks:
-                if isinstance(block, dict) and block.get("type") == "text":
-                    text = block.get("text")
-
-                    if isinstance(text, str):
-                        parts.append(text)
-
-            return "".join(parts)
-
-        return ""
 
     def _to_sse(self, event_model: Any) -> str:
         return f"data: {event_model.model_dump_json()}\n\n"

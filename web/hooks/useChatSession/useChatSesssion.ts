@@ -2,14 +2,14 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 // enums
-import { AssistantActivityEnum, ChatStreamEventTypeEnum, MessageRoleEnum } from '@/enums/chat';
+import { ChatStreamEventTypeEnum, MessageRoleEnum } from '@/enums/chat';
 
 // services
 import APIService from '@/services/APIService';
 
 // types
 import type { PendingContentEntry, UseChatSessionState } from './types';
-import type { ChatMessage, ChatStreamEvent } from '@/types/chat';
+import type { ActivityMessage, ChatMessage, ChatStreamEvent } from '@/types/chat';
 
 export default function useChatSession(): UseChatSessionState {
   // refs
@@ -18,7 +18,7 @@ export default function useChatSession(): UseChatSessionState {
   // memos
   const revealContentIntervalMS = useMemo(() => 16, []);
   // states
-  const [activity, setActivity] = useState<AssistantActivityEnum | null>(null);
+  const [activity, setActivity] = useState<ActivityMessage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -76,7 +76,7 @@ export default function useChatSession(): UseChatSessionState {
 
       setError(null);
       setIsStreaming(true);
-      setActivity(AssistantActivityEnum.Thinking);
+      setActivity(null);
 
       abortRef.current = controller;
 
@@ -116,6 +116,16 @@ export default function useChatSession(): UseChatSessionState {
             );
 
             break;
+          }
+
+          if (event.type === ChatStreamEventTypeEnum.Activity) {
+            setActivity({
+              activity: event.activity,
+              content: event.content,
+              id: event.message_id,
+            });
+
+            continue;
           }
 
           setActivity(null);
