@@ -46,10 +46,10 @@
 │   ├── package/                            <-- Docker image files
 │   │   ├── <service-name>/
 │   │   │   ├── Dockerfile
-│   │   │   └──  Dockerfile.development
+│   │   │   └── Dockerfile.development
 │   │   └── ...
 │   └── ...
-├─ deployments/                              <-- Container orchestration configurations
+├─ deployments/                             <-- Container orchestration configurations
 │   ├── compose.yml
 │   └── compose.development.yml
 ├─ web/
@@ -120,16 +120,21 @@ $ make run_api
 
 ### 3.1. Useful commands
 
-| Command             | Description                                                         |
-| ------------------- | ------------------------------------------------------------------- |
-| `make dev`          | Runs the platform in development mode via Docker.                   |
-| `make format`       | Formats soruce code files.                                          |
-| `make install`      | Installs all the dependencies - including development dependencies. |
-| `make install_deps` | Installs each application's dependencies.                           |
-| `make install_dev`  | Installs the development dependencies.                              |
-| `make lint`         | Lints soruce code files.                                            |
-| `make run_api`      | Starts the API in the Python virtual environment.                   |
-| `make start`        | Runs the platform via Docker.                                       |
+| Command                | Description                                                          |
+|------------------------|----------------------------------------------------------------------|
+| `make dev`             | Runs the platform in development mode via Docker.                    |
+| `make format`          | Formats soruce code files.                                           |
+| `make install`         | Installs all the dependencies - including development dependencies.  |
+| `make install_js_deps` | Installs the JavaScript dependencies.                                |
+| `make install_py_deps` | Installs the Python application dependencies.                        |
+| `make install_py_dev`  | Installs the Python dependencies that inlucde tools for development. |
+| `make lint_py`         | Lints Python soruce files.                                           |
+| `make run_api`         | Starts the API in the Python virtual environment.                    |
+| `make run_web`         | Starts the web application.                                          |
+| `make start`           | Runs the platform in production mode via Docker.                     |
+| `make test`            | Runs all tests.                                                      |
+| `make test_py_unit`    | Runs Python tests.                                                   |
+| `make test_unit`       | Runs all unit tests.                                                 |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 

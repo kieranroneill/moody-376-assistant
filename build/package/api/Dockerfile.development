@@ -13,5 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # copy source files
 COPY ./pyproject.toml .
 COPY ./api .
+COPY ./data .
 
 CMD ["python", "-m", "api.main"]

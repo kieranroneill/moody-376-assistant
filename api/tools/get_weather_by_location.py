@@ -2,13 +2,15 @@ import json
 import logging
 
 import requests
+from langchain.tools import tool
 
 from api import utilities
 
 
+@tool
 def get_weather_by_location(city: str, country_code: str | None = None) -> dict:
     """
-    Get current weather for a given city.
+    Get current weather for a given city and optionally country code.
 
     Args:
         city (str): The city.

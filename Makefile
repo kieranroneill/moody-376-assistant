@@ -10,8 +10,14 @@ dev:
 		--build
 
 format:
+	${MAKE} format_js
+	${MAKE} format_py
+
+format_js:
 	@echo ">>> formatting javascript files"
 	pnpm format
+
+format_py:
 	@echo ">>> formatting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -19,15 +25,15 @@ format:
 		python3 -m black .
 
 install:
-	${MAKE} install_javascript_deps
-	${MAKE} install_python_dev_deps
-	${MAKE} install_python_deps
+	${MAKE} install_js_deps
+	${MAKE} install_py_dev_deps
+	${MAKE} install_py_deps
 
-install_javascript_deps:
+install_js_deps:
 	@echo ">>> installing javascript dependencies"
 	pnpm install
 
-install_python_dev_deps:
+install_py_dev_deps:
 	@echo ">>> installing python development dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -35,14 +41,17 @@ install_python_dev_deps:
 		pip install -r dev-requirements.txt && \
 		deactivate
 
-install_python_deps:
+install_py_deps:
 	@echo ">>> installing python dependencies"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		pip install -r requirements.txt && \
 		deactivate
 
-lint_python:
+lint:
+	${MAKE} lint_py
+
+lint_py:
 	@echo ">>> linting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -54,6 +63,10 @@ run_api:
 	source .venv/bin/activate && \
 		python3 -m api.main
 
+run_web:
+	@echo ">>> running web"
+	pnpm start
+
 start:
 	docker compose \
 		-f ./deployments/compose.yml \
@@ -64,11 +77,11 @@ start:
 test:
 	${MAKE} test_unit
 
-test_python_unit:
+test_unit:
+	${MAKE} test_py_unit
+
+test_py_unit:
 	@echo ">>> running python unit tests"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		python3 -m pytest -vv -s --log-cli-level=ERROR api
-
-test_unit:
-	${MAKE} test_python_unit
