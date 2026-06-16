@@ -24,6 +24,7 @@ const App: FC = () => {
   // hooks
   const { boatContext, fetch: fetchBoatContext, loading: boatContextLoading } = useBoatContext();
   const {
+    activity,
     error: chatError,
     isStreaming,
     messages,
@@ -104,6 +105,7 @@ const App: FC = () => {
 
         <div className="min-h-0 flex-1">
           <ChatPanel
+            activity={activity}
             boatDetails={boatContext?.specification || null}
             error={chatError}
             isStreaming={isStreaming}

@@ -12,31 +12,31 @@ import { cn } from '@/utilities/styles';
 
 const ActivityPill: FC<Props> = ({ activity, className }) => {
   // memos
-  const activityConfig = useMemo<ActivityConfig>(
+  const { Icon, label } = useMemo<ActivityConfig>(
     () =>
       ({
         [AssistantActivityEnum.ManualLookup]: {
-          icon: BookOpen,
+          Icon: BookOpen,
           label: 'Lookup manual',
         },
         [AssistantActivityEnum.PowerCheck]: {
-          icon: BatteryCharging,
+          Icon: BatteryCharging,
           label: 'Checking power data',
         },
         [AssistantActivityEnum.ReviewLog]: {
-          icon: ClipboardList,
+          Icon: ClipboardList,
           label: 'Reviewing logbook',
         },
         [AssistantActivityEnum.SystemCheck]: {
-          icon: Cpu,
+          Icon: Cpu,
           label: 'Inspecting onboard systems',
         },
         [AssistantActivityEnum.Thinking]: {
-          icon: Loader,
+          Icon: Loader,
           label: 'Thinking',
         },
         [AssistantActivityEnum.WeatherCheck]: {
-          icon: CloudSun,
+          Icon: CloudSun,
           label: 'Checking weather',
         },
       })[activity],
@@ -50,8 +50,10 @@ const ActivityPill: FC<Props> = ({ activity, className }) => {
         className
       )}
     >
-      <activityConfig.icon className="size-3.5 animate-pulse" aria-hidden="true" />
-      {activityConfig.label}
+      <Icon className="size-3.5 animate-pulse" aria-hidden="true" />
+
+      {label}
+
       <span className="sr-only">in progress</span>
     </span>
   );

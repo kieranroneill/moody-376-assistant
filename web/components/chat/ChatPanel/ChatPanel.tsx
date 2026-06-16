@@ -4,18 +4,24 @@ import { AlertTriangle, PanelRight, RotateCw } from 'lucide-react';
 import { type FC, useEffect, useMemo, useRef } from 'react';
 
 // components
+import ActivityPill from '@/components/chat/ActivityPill';
+import MessageBubble from '@/components/chat/MessageBubble';
+import MessagePill from '@/components/chat/MessagePill';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatEmptyState } from '@/components/chat/chat-empty-state';
 import { Composer } from '@/components/chat/composer';
-import { MessageBubble } from '@/components/chat/message-bubble';
 import { QuickPrompts } from '@/components/chat/quick-prompts';
+
+// enums
+import { MessageRoleEnum } from '@/enums';
 
 // types
 import type { Props } from './types';
 
 const ChatPanel: FC<Props> = ({
+  activity,
   boatDetails,
   error,
   isStreaming,
@@ -35,7 +41,7 @@ const ChatPanel: FC<Props> = ({
     if (element) {
       element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [activity, messages]);
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -59,10 +65,18 @@ const ChatPanel: FC<Props> = ({
 
       <ScrollArea className="min-h-0 flex-1">
         <div ref={scrollRef} className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6">
-          {!hasMessages ? (
-            <ChatEmptyState boat={boatDetails} onSelect={sendMessage} />
-          ) : (
-            messages.map((m) => <MessageBubble key={m.id} message={m} />)
+          {!hasMessages && !activity && <ChatEmptyState boat={boatDetails} onSelect={sendMessage} />}
+
+          {messages.map((message) => (
+            <MessageBubble key={message.id} role={message.role} timestamp={message.timestamp}>
+              <MessagePill message={message} />
+            </MessageBubble>
+          ))}
+
+          {activity && (
+            <MessageBubble role={MessageRoleEnum.Assistant} timestamp={new Date().toISOString()}>
+              <ActivityPill activity={activity} />
+            </MessageBubble>
           )}
 
           {error && (
@@ -88,7 +102,9 @@ const ChatPanel: FC<Props> = ({
               <QuickPrompts onSelect={sendMessage} disabled={isStreaming} />
             </div>
           )}
+
           <Composer onSend={sendMessage} isStreaming={isStreaming} />
+
           <p className="mt-2 text-center text-xs text-muted-foreground">
             Assistant guidance is advisory. Verify against manuals and conditions before acting.
           </p>

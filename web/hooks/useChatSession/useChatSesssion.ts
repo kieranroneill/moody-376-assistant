@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 // enums
@@ -8,163 +8,172 @@ import { AssistantActivityEnum, ChatStreamEventTypeEnum, MessageRoleEnum } from 
 import APIService from '@/services/APIService';
 
 // types
-import type { UseChatSessionState } from './types';
+import type { PendingContentEntry, UseChatSessionState } from './types';
 import type { ChatMessage, ChatStreamEvent } from '@/types/chat';
 
 export default function useChatSession(): UseChatSessionState {
   // refs
   const abortRef = useRef<AbortController | null>(null);
   const lastUserMessageIDRef = useRef<string | null>(null);
+  // memos
+  const revealContentIntervalMS = useMemo(() => 16, []);
   // states
   const [activity, setActivity] = useState<AssistantActivityEnum | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   // callbacks
-  const run = useCallback(async (message: ChatMessage) => {
-    const controller = new AbortController();
-    const pendingContentByMessageId = new Map<string, string>();
-    let apiService: APIService;
-    let revealTimer: ReturnType<typeof setInterval> | null = null;
-    let stream: AsyncGenerator<ChatStreamEvent>;
+  const _revealPendingContent = useCallback((pendingContentMap: Map<string, string>, onEmpty: () => void) => {
+    const pendingEntries = Array.from(pendingContentMap.entries())
+      .map<PendingContentEntry>(([messageId, content]) => {
+        const visibleContent = content.slice(0, 2);
+        const remainingContent = content.slice(2);
 
-    const ensureRevealTimer = () => {
-      if (revealTimer) {
-        return;
+        return {
+          messageId,
+          remainingContent,
+          visibleContent,
+        };
+      })
+      .filter(({ visibleContent }) => visibleContent.length > 0);
+
+    if (pendingEntries.length === 0) {
+      onEmpty();
+
+      return;
+    }
+
+    for (const { messageId, remainingContent } of pendingEntries) {
+      if (remainingContent) {
+        pendingContentMap.set(messageId, remainingContent);
+      } else {
+        pendingContentMap.delete(messageId);
       }
+    }
 
-      revealTimer = setInterval(() => {
-        const pendingEntries = Array.from(pendingContentByMessageId.entries())
-          .map(([messageId, content]) => {
-            const visibleContent = content.slice(0, 2);
-            const remainingContent = content.slice(2);
+    setMessages((previousMessages) =>
+      previousMessages.map((message) => {
+        const pendingEntry = pendingEntries.find(({ messageId }) => messageId === message.id);
 
-            return {
-              messageId,
-              remainingContent,
-              visibleContent,
-            };
-          })
-          .filter(({ visibleContent }) => visibleContent.length > 0);
-
-        if (pendingEntries.length === 0) {
-          if (revealTimer) {
-            clearInterval(revealTimer);
-            revealTimer = null;
-          }
-
-          return;
+        if (!pendingEntry) {
+          return message;
         }
 
-        for (const { messageId, remainingContent } of pendingEntries) {
-          if (remainingContent) {
-            pendingContentByMessageId.set(messageId, remainingContent);
-          } else {
-            pendingContentByMessageId.delete(messageId);
+        return {
+          ...message,
+          content: message.content + pendingEntry.visibleContent,
+        };
+      })
+    );
+  }, []);
+  const _run = useCallback(
+    async (message: ChatMessage) => {
+      const controller = new AbortController();
+      const pendingContentMap = new Map<string, string>();
+      let apiService: APIService;
+      let revealTimer: ReturnType<typeof setInterval> | null = null;
+      let stream: AsyncGenerator<ChatStreamEvent>;
+
+      setError(null);
+      setIsStreaming(true);
+      setActivity(AssistantActivityEnum.Thinking);
+
+      abortRef.current = controller;
+
+      try {
+        apiService = new APIService();
+        stream = apiService.streamChat(
+          {
+            content: message.content,
+          },
+          controller.signal
+        );
+
+        for await (const event of stream) {
+          if (event.type === ChatStreamEventTypeEnum.Error) {
+            console.error('chat stream error:', event.error);
+
+            setMessages((prev) => prev.filter((message) => message.id !== event.message_id));
+
+            throw new Error(event.error.message);
           }
-        }
 
-        setMessages((previousMessages) =>
-          previousMessages.map((message) => {
-            const pendingEntry = pendingEntries.find(({ messageId }) => messageId === message.id);
-
-            if (!pendingEntry) {
-              return message;
+          if (event.type === ChatStreamEventTypeEnum.Done) {
+            while (pendingContentMap.size > 0) {
+              await _wait();
             }
 
-            return {
-              ...message,
-              content: message.content + pendingEntry.visibleContent,
-            };
-          })
-        );
-      }, 16);
-    };
+            setMessages((previousMessages) =>
+              previousMessages.map((message) =>
+                message.id === event.message_id
+                  ? {
+                      ...message,
+                      streaming: false,
+                      timestamp: new Date().toISOString(),
+                    }
+                  : message
+              )
+            );
 
-    setError(null);
-    setIsStreaming(true);
-    setActivity(AssistantActivityEnum.Thinking);
-
-    abortRef.current = controller;
-
-    try {
-      apiService = new APIService();
-      stream = apiService.streamChat(
-        {
-          content: message.content,
-        },
-        controller.signal
-      );
-
-      for await (const event of stream) {
-        if (event.type === ChatStreamEventTypeEnum.Error) {
-          console.error('chat stream error:', event.error);
-
-          setMessages((prev) => prev.filter((message) => message.id !== event.message_id));
-
-          throw new Error(event.error.message);
-        }
-
-        if (event.type === ChatStreamEventTypeEnum.Done) {
-          while (pendingContentByMessageId.size > 0) {
-            await new Promise((resolve) => setTimeout(resolve, 16));
+            break;
           }
 
-          setMessages((previousMessages) =>
-            previousMessages.map((message) =>
-              message.id === event.message_id
-                ? {
-                    ...message,
-                    streaming: false,
-                    timestamp: new Date().toISOString(),
-                  }
-                : message
-            )
-          );
+          setActivity(null);
 
-          break;
+          setMessages((previousMessages) => {
+            const previousMessage = previousMessages.find(({ id }) => id === event.message_id);
+
+            if (previousMessage) {
+              return previousMessages;
+            }
+
+            return [
+              ...previousMessages,
+              {
+                content: '',
+                id: event.message_id,
+                role: MessageRoleEnum.Assistant,
+                streaming: true,
+                timestamp: new Date().toISOString(),
+              },
+            ];
+          });
+
+          pendingContentMap.set(event.message_id, `${pendingContentMap.get(event.message_id) ?? ''}${event.content}`);
+
+          if (!revealTimer) {
+            revealTimer = setInterval(() => {
+              _revealPendingContent(pendingContentMap, () => {
+                if (revealTimer) {
+                  clearInterval(revealTimer);
+
+                  revealTimer = null;
+                }
+              });
+            }, revealContentIntervalMS);
+          }
+        }
+      } catch (error) {
+        setError("The assistant couldn't complete that request. Check your connection and try again.");
+      } finally {
+        if (revealTimer) {
+          clearInterval(revealTimer);
+
+          revealTimer = null;
         }
 
-        setMessages((previousMessages) => {
-          const previousMessage = previousMessages.find(({ id }) => id === event.message_id);
+        setIsStreaming(false);
+        setActivity(null);
 
-          if (previousMessage) {
-            return previousMessages;
-          }
-
-          return [
-            ...previousMessages,
-            {
-              content: '',
-              id: event.message_id,
-              role: MessageRoleEnum.Assistant,
-              streaming: true,
-              timestamp: new Date().toISOString(),
-            },
-          ];
-        });
-
-        pendingContentByMessageId.set(
-          event.message_id,
-          `${pendingContentByMessageId.get(event.message_id) ?? ''}${event.content}`
-        );
-
-        ensureRevealTimer();
+        abortRef.current = null;
       }
-    } catch (error) {
-      setError("The assistant couldn't complete that request. Check your connection and try again.");
-    } finally {
-      if (revealTimer) {
-        clearInterval(revealTimer);
-        revealTimer = null;
-      }
-
-      setIsStreaming(false);
-      setActivity(null);
-
-      abortRef.current = null;
-    }
-  }, []);
+    },
+    [_revealPendingContent]
+  );
+  const _wait = useCallback(
+    () => new Promise((resolve) => setTimeout(resolve, revealContentIntervalMS)),
+    [revealContentIntervalMS]
+  );
   const reset = useCallback(() => {
     abortRef.current?.abort();
     setMessages([]);
@@ -193,10 +202,10 @@ export default function useChatSession(): UseChatSessionState {
         setError(null);
         setMessages((prev) => [...prev, newUserMessage]);
 
-        void run(newUserMessage);
+        void _run(newUserMessage);
       }
     }
-  }, [messages, run]);
+  }, [messages, _run]);
   const send = useCallback(
     (content: string) => {
       const trimmed = content.trim();
@@ -216,9 +225,9 @@ export default function useChatSession(): UseChatSessionState {
 
       setMessages((prev) => [...prev, userMessage]);
 
-      void run(userMessage);
+      void _run(userMessage);
     },
-    [isStreaming, run]
+    [isStreaming, _run]
   );
 
   return {
