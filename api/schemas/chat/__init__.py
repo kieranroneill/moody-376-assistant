@@ -12,6 +12,7 @@ __all__ = [
     "ChatMessageSchema",
     "ChatRequestSchema",
     "ChatResponseSchema",
+    "ChatStreamActivityEventSchema",
     "ChatStreamDoneEventSchema",
     "ChatStreamErrorEventSchema",
     "ChatStreamTokenEventSchema",

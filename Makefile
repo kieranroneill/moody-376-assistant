@@ -10,8 +10,14 @@ dev:
 		--build
 
 format:
+	${MAKE} format_js
+	${MAKE} format_py
+
+format_js:
 	@echo ">>> formatting javascript files"
 	pnpm format
+
+format_py:
 	@echo ">>> formatting python files"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
@@ -42,6 +48,9 @@ install_py_deps:
 		pip install -r requirements.txt && \
 		deactivate
 
+lint:
+	${MAKE} lint_py
+
 lint_py:
 	@echo ">>> linting python files"
 	python3 -m venv .venv
@@ -68,11 +77,11 @@ start:
 test:
 	${MAKE} test_unit
 
+test_unit:
+	${MAKE} test_py_unit
+
 test_py_unit:
 	@echo ">>> running python unit tests"
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		python3 -m pytest -vv -s --log-cli-level=ERROR api
-
-test_unit:
-	${MAKE} test_python_unit

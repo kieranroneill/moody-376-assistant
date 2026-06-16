@@ -25,7 +25,8 @@ def _app() -> FastAPI:
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     database_engine = create_async_engine(utilities.database.url(), pool_pre_ping=True)
 
-    # attach the initialized agent, database (session factory) and data path so it is available for each route via dependencies
+    # attach the initialized agent, database (session factory) and data path so it is available for each route
+    # via dependencies
     app.state.database = async_sessionmaker(
         bind=database_engine,
         class_=AsyncSession,
