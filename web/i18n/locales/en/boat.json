@@ -1,0 +1,7 @@
+{
+  "labels": {
+    "connectionStatus": "Syncing",
+    "connectionStatus_offline": "Offline",
+    "connectionStatus_online": "Synced"
+  }
+}

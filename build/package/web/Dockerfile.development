@@ -10,6 +10,6 @@ RUN pnpm install --frozen-lockfile
 
 COPY ./web ./web
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["pnpm", "dev", "--hostname", "0.0.0.0"]

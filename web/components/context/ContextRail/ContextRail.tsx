@@ -14,10 +14,10 @@ import {
 import { type FC, useMemo } from 'react';
 
 // components
-import { Badge } from '@/components/ui/badge';
+import Badge from '@/components/ui/Badge';
 import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ContextCard } from '@/components/context/context-card';
+import ContextCard from '@/components/context/ContextCard';
+import Skeleton from '@/components/ui/Skeleton';
 import Stat from '@/components/ui/Stat';
 
 // enums

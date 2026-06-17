@@ -1,12 +1,18 @@
-import { Analytics } from '@vercel/analytics/next';
+import { initServerI18next, getT, getResources, generateI18nStaticParams } from 'next-i18next/server';
+import { I18nProvider } from 'next-i18next/client';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type { ReactElement, ReactNode } from 'react';
 
+// configs
+import i18nConfig from '@/i18n.config';
+
 // styles
 import './globals.css';
 
-type Props = Record<'children', ReactNode>;
+interface Props {
+  children: ReactNode;
+}
 
 const geistMono = Geist_Mono({
   subsets: ['latin'],
@@ -18,10 +24,9 @@ const geistSans = Geist({
 });
 
 const metadata: Metadata = {
-  title: 'Helm Assistant — Onboard Companion',
+  title: 'Boat Assistant',
   description:
-    'A calm, practical onboard assistant for your sailboat: maintenance, systems, power, weather, and logbook in one chat-first interface.',
-  generator: 'v0.app',
+    'A practical onboard assistant for your sailboat: maintenance, systems, power, weather, and logbook in a chat-first interface.',
   icons: {
     icon: [
       {
@@ -47,16 +52,26 @@ const viewport: Viewport = {
   initialScale: 1,
 };
 
-const RootLayout: (props: Props) => ReactElement = ({ children }) => {
+initServerI18next(i18nConfig);
+
+async function generateStaticParams() {
+  return generateI18nStaticParams();
+}
+
+const RootLayout: (props: Props) => Promise<ReactElement> = async ({ children }) => {
+  const { i18n, lng } = await getT();
+  const resources = getResources(i18n);
+
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} bg-background`}>
+    <html lang={lng} className={`${geistSans.variable} ${geistMono.variable} bg-background`}>
       <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <I18nProvider language={lng} resources={resources}>
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );
 };
 
 export default RootLayout;
-export { metadata, viewport };
+export { generateStaticParams, metadata, viewport };

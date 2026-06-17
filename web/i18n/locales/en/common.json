@@ -1,0 +1,19 @@
+{
+  "captions": {
+    "connecting": "Connecting",
+    "openNavigation": "Open Navigation"
+  },
+  "descriptions": {
+    "onboardContext": "Live boat status, weather, power, and maintenance",
+    "sidebar": "Boat summary, conversations, and navigation"
+  },
+  "labels": {
+    "context": "Context",
+    "retry": "Retry"
+  },
+  "titles": {
+    "app": "Boat Assistant",
+    "navigation": "Navigation",
+    "onboardContext": "Onboard Context"
+  }
+}

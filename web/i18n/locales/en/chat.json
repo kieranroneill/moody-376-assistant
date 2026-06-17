@@ -1,0 +1,45 @@
+{
+  "_quickPrompts": {
+    "batteryStatus": {
+      "label": "Show battery status",
+      "prompt": "Show me the current battery status."
+    },
+    "powerUsage": {
+      "label": "Summarize power usage",
+      "prompt": "Summarize today's power usage."
+    },
+    "weather": {
+      "label": "Check weather",
+      "prompt": "What weather should I pay attention to today?"
+    },
+    "troubleshoot": {
+      "label": "Troubleshoot a system",
+      "prompt": "Help me troubleshoot a system on board."
+    },
+    "logEntry": {
+      "label": "Create a log entry",
+      "prompt": "Create a log entry for departure from harbor."
+    },
+    "maintenanceChecklist": {
+      "label": "Find a maintenance checklist",
+      "prompt": "Find the maintenance checklist for the engine."
+    }
+  },
+  "captions": {
+    "advisoryWarning": "Assistant guidance is advisory. Verify against manuals and conditions before acting.",
+    "suggestedPrompts": [
+      "How do I troubleshoot the freshwater pump?",
+      "What is drawing power right now?",
+      "Summarize today's battery usage",
+      "What weather should I pay attention to today?",
+      "Create a log entry for departure from harbor",
+      "Find the maintenance checklist for the engine"
+    ],
+    "thinking": "Thinking",
+    "welcome": "Welcome to {{boat}} assistant.",
+    "welcomeHint": "Ask about maintenance, systems, power, weather, or your logbook.{{boat}} I know this boat."
+  },
+  "labels": {
+    "quickTasks": "Quick tasks"
+  }
+}

@@ -1,10 +1,11 @@
 'use client';
 
-import { type FC, useCallback, useEffect, useState } from 'react';
+import { useT } from 'next-i18next/client';
 import { Menu, PanelRight } from 'lucide-react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 
 // components
-import { Button } from '@/components/ui/button';
+import Button from '@/components/ui/Button';
 import ChatPanel from '@/components/chat/ChatPanel';
 import ContextRail from '@/components/context/ContextRail';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -21,6 +22,7 @@ import useChatSession from '@/hooks/useChatSession';
 import useChatSessions from '@/hooks/useChatSessions';
 
 const App: FC = () => {
+  const { t } = useT();
   // hooks
   const { boatContext, fetch: fetchBoatContext, loading: boatContextLoading } = useBoatContext();
   const {
@@ -59,7 +61,7 @@ const App: FC = () => {
 
   return (
     <div className="flex h-dvh w-full overflow-hidden bg-background text-foreground">
-      {/* Desktop sidebar */}
+      {/* desktop sidebar */}
       <aside className="hidden w-72 shrink-0 border-r border-border lg:block">
         <Sidebar
           activeNavigation={activeNavigation}
@@ -72,16 +74,16 @@ const App: FC = () => {
         />
       </aside>
 
-      {/* Main chat column */}
+      {/* main chat column */}
       <main className="flex min-w-0 flex-1 flex-col">
-        {/* Adaptive top bar: nav trigger below lg, context trigger below xl */}
+        {/* adaptive top bar: nav trigger below lg, context trigger below xl */}
         <header className="flex items-center justify-between gap-2 border-b border-border px-4 py-3 xl:hidden">
           <div className="flex min-w-0 items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
               onClick={handleOnNavigationOpenClick}
-              aria-label="Open navigation"
+              aria-label={t('common:captions.openNavigation')}
               className="lg:hidden"
             >
               <Menu className="size-5" />
@@ -93,13 +95,15 @@ const App: FC = () => {
               <p className="truncate text-xs text-muted-foreground">
                 {boatContext?.specification
                   ? `${boatContext.specification.make} ${boatContext.specification.model}`
-                  : 'Connecting…'}
+                  : t('common:captions.connecting')}
               </p>
             </div>
           </div>
+
           <Button variant="outline" size="sm" onClick={handleOnContextOpenClick}>
             <PanelRight data-icon="inline-start" />
-            Context
+
+            {t('common:labels.context')}
           </Button>
         </header>
 
@@ -125,9 +129,9 @@ const App: FC = () => {
       <Sheet open={navigationOpen} onOpenChange={setNavigationOpen}>
         <SheetContent side="left" className="w-80 p-0">
           <SheetHeader className="sr-only">
-            <SheetTitle>Navigation</SheetTitle>
+            <SheetTitle>{t('common:title.navigation')}</SheetTitle>
 
-            <SheetDescription>Boat summary, conversations, and navigation</SheetDescription>
+            <SheetDescription>{t('common:descriptions.sidebar')}</SheetDescription>
           </SheetHeader>
 
           <Sidebar
@@ -146,9 +150,9 @@ const App: FC = () => {
       <Sheet open={contextOpen} onOpenChange={setContextOpen}>
         <SheetContent side="right" className="w-full gap-0 overflow-y-auto p-0 sm:max-w-md">
           <SheetHeader className="border-b border-border">
-            <SheetTitle>Onboard context</SheetTitle>
+            <SheetTitle>{t('common:titles.onboardContext')}</SheetTitle>
 
-            <SheetDescription>Live boat status, weather, power, and maintenance</SheetDescription>
+            <SheetDescription>{t('common:descriptions.onboardContext')}</SheetDescription>
           </SheetHeader>
 
           <div className="p-4">

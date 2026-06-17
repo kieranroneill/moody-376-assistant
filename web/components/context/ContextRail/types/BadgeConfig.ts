@@ -1,9 +1,6 @@
-// types
-import type { BadgeVariants } from '@/components/ui/Badge';
-
 interface BadgeConfig {
   label: string;
-  variant: BadgeVariants;
+  variant: 'default' | 'secondary' | 'destructive' | 'outline' | 'ghost' | 'link';
 }
 
 export default BadgeConfig;

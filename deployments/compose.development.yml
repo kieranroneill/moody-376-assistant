@@ -86,7 +86,7 @@ services:
     networks:
       - moody_376_assistant_network_dev
     ports:
-      - '8080:3000'
+      - '8080:8080'
     volumes:
       # watch for changes on web source code
       - ../web:/app/web:cached

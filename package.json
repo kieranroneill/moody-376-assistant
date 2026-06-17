@@ -12,22 +12,25 @@
   "packageManager": "pnpm@10.3.0",
   "scripts": {
     "build": "next build web",
-    "dev": "next dev web",
+    "dev": "next dev web -p 8080",
     "format": "prettier --write .",
     "lint": "eslint .",
     "prepare": "husky",
-    "start": "next start web"
+    "start": "next start web -p 8080"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
     "@vercel/analytics": "1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "i18next": "^26.3.1",
     "lucide-react": "^1.16.0",
     "next": "16.2.6",
+    "next-i18next": "^16.0.7",
     "next-themes": "^0.4.6",
     "react": "^19",
     "react-dom": "^19",
+    "react-i18next": "^17.0.8",
     "shadcn": "^4.8.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",

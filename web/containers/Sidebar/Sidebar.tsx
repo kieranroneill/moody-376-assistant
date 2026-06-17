@@ -4,11 +4,11 @@ import { Anchor, MessageSquare, Plus, Wrench, Cpu, NotebookPen, Settings } from 
 import { type FC, useMemo } from 'react';
 
 // components
-import ConnectionStatus from '@/components/api/ConnectionStatus';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
+import ConnectionStatus from '@/components/boat/ConnectionStatus';
+import Button from '@/components/ui/Button';
+import ScrollArea from '@/components/ui/ScrollArea';
+import Separator from '@/components/ui/Separator';
+import Skeleton from '@/components/ui/Skeleton';
 
 // types
 import type { NavigationItem, Props } from './types';
