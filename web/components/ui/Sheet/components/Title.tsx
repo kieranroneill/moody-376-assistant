@@ -1,4 +1,5 @@
 'use client';
+import { Dialog as SheetPrimitive } from '@base-ui/react/dialog';
 import { type FC } from 'react';
 
 // types
@@ -9,9 +10,9 @@ import { cn } from '@/utilities';
 
 const Title: FC<Props> = ({ className, ...props }) => {
   return (
-    <div
-      className={cn('font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm', className)}
-      data-slot="card-title"
+    <SheetPrimitive.Title
+      className={cn('font-heading text-base font-medium text-foreground', className)}
+      data-slot="sheet-title"
       {...props}
     />
   );

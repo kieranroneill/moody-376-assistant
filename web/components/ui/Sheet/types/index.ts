@@ -1,0 +1,11 @@
+export type { default as CloseProps } from './CloseProps';
+export type { default as Component } from './Component';
+export type { default as ContentProps } from './ContentProps';
+export type { default as DescriptionProps } from './DescriptionProps';
+export type { default as FooterProps } from './FooterProps';
+export type { default as HeaderProps } from './HeaderProps';
+export type { default as OverlayProps } from './OverlayProps';
+export type { default as PortalProps } from './PortalProps';
+export type { default as Props } from './Props';
+export type { default as TitleProps } from './TitleProps';
+export type { default as TriggerProps } from './TriggerProps';

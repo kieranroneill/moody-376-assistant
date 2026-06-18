@@ -8,7 +8,7 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 import Button from '@/components/ui/Button';
 import ChatPanel from '@/components/chat/ChatPanel';
 import ContextRail from '@/components/context/ContextRail';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import Sheet from '@/components/ui/Sheet';
 
 // containers
 import Sidebar from '@/containers/Sidebar';
@@ -127,12 +127,12 @@ const App: FC = () => {
 
       {/* Mobile/tablet navigation drawer */}
       <Sheet open={navigationOpen} onOpenChange={setNavigationOpen}>
-        <SheetContent side="left" className="w-80 p-0">
-          <SheetHeader className="sr-only">
-            <SheetTitle>{t('common:title.navigation')}</SheetTitle>
+        <Sheet.Content side="left" className="w-80 p-0">
+          <Sheet.Header className="sr-only">
+            <Sheet.Title>{t('common:title.navigation')}</Sheet.Title>
 
-            <SheetDescription>{t('common:descriptions.sidebar')}</SheetDescription>
-          </SheetHeader>
+            <Sheet.Description>{t('common:descriptions.sidebar')}</Sheet.Description>
+          </Sheet.Header>
 
           <Sidebar
             activeNavigation={activeNavigation}
@@ -143,22 +143,22 @@ const App: FC = () => {
             onNavigate={handleOnMobileNavigate}
             onNewChat={handleOnNewChat}
           />
-        </SheetContent>
+        </Sheet.Content>
       </Sheet>
 
       {/* Tablet/mobile context drawer */}
       <Sheet open={contextOpen} onOpenChange={setContextOpen}>
-        <SheetContent side="right" className="w-full gap-0 overflow-y-auto p-0 sm:max-w-md">
-          <SheetHeader className="border-b border-border">
-            <SheetTitle>{t('common:titles.onboardContext')}</SheetTitle>
+        <Sheet.Content side="right" className="w-full gap-0 overflow-y-auto p-0 sm:max-w-md">
+          <Sheet.Header className="border-b border-border">
+            <Sheet.Title>{t('common:titles.onboardContext')}</Sheet.Title>
 
-            <SheetDescription>{t('common:descriptions.onboardContext')}</SheetDescription>
-          </SheetHeader>
+            <Sheet.Description>{t('common:descriptions.onboardContext')}</Sheet.Description>
+          </Sheet.Header>
 
           <div className="p-4">
             <ContextRail context={boatContext} loading={boatContextLoading} />
           </div>
-        </SheetContent>
+        </Sheet.Content>
       </Sheet>
     </div>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 // components
 import Action from './components/Action';
 import Content from './components/Content';

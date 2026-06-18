@@ -1,6 +1,9 @@
-export { default as Action } from './Action';
+export { default as Close } from './Close';
 export { default as Content } from './Content';
 export { default as Description } from './Description';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';
+export { default as Overlay } from './Overlay';
+export { default as Portal } from './Portal';
 export { default as Title } from './Title';
+export { default as Trigger } from './Trigger';

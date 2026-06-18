@@ -15,7 +15,7 @@ import { type FC, useMemo } from 'react';
 
 // components
 import Badge from '@/components/ui/Badge';
-import { Progress } from '@/components/ui/progress';
+import Progress from '@/components/ui/Progress';
 import ContextCard from '@/components/context/ContextCard';
 import Skeleton from '@/components/ui/Skeleton';
 import Stat from '@/components/ui/Stat';
