@@ -15,13 +15,22 @@ const PowerContextCard: FC<Props> = ({ consumers, reading }) => {
   const { t } = useT();
   // memos
   const batteryPercentageRemaining = useMemo(
-    () => `${reading?.batteryPercentageRemaining.toString() || '-'}%`,
+    () => (reading?.batteryPercentageRemaining ? `${reading.batteryPercentageRemaining.toString()}%` : '-'),
     [reading]
   );
-  const batteryVoltage = useMemo(() => `${reading?.batteryVoltage.toFixed(1) || '-'} V`, [reading]);
-  const estimatedHoursRemaining = useMemo(() => `${`~${reading?.estimatedHoursRemaining}` || '-'} h`, [reading]);
-  const loadAmps = useMemo(() => `${reading?.loadAmps.toFixed(1) || '-'} A`, [reading]);
-  const solarInputAmps = useMemo(() => `${reading?.solarInputAmps.toFixed(1) || '-'} A`, [reading]);
+  const batteryVoltage = useMemo(
+    () => (reading?.batteryVoltage ? `${reading.batteryVoltage.toFixed(1)} V` : '-'),
+    [reading]
+  );
+  const estimatedHoursRemaining = useMemo(
+    () => (reading?.estimatedHoursRemaining ? `~${reading.estimatedHoursRemaining} h` : '-'),
+    [reading]
+  );
+  const loadAmps = useMemo(() => (reading?.loadAmps ? `${reading.loadAmps.toFixed(1)} A` : '-'), [reading]);
+  const solarInputAmps = useMemo(
+    () => (reading?.solarInputAmps ? `${reading.solarInputAmps.toFixed(1)} A` : '-'),
+    [reading]
+  );
   const source = useMemo(() => {
     if (reading?.shorePower) {
       return t('boat:labels.shore');
@@ -74,19 +83,21 @@ const PowerContextCard: FC<Props> = ({ consumers, reading }) => {
         )}
       </div>
 
-      <div className="mt-3 border-t border-border pt-3">
-        <p className="mb-1.5 text-xs font-medium text-muted-foreground">{t('boat:labels.topConsumers')}</p>
+      {consumers.length > 0 && (
+        <div className="mt-3 border-t border-border pt-3">
+          <p className="mb-1.5 text-xs font-medium text-muted-foreground">{t('boat:labels.topConsumers')}</p>
 
-        <ul className="flex flex-col gap-1">
-          {consumers.slice(0, 4).map((consumers) => (
-            <li key={consumers.id} className="flex items-center justify-between text-xs">
-              <span className="text-foreground">{consumers.name}</span>
+          <ul className="flex flex-col gap-1">
+            {consumers.slice(0, 4).map((consumers) => (
+              <li key={consumers.id} className="flex items-center justify-between text-xs">
+                <span className="text-foreground">{consumers.name}</span>
 
-              <span className="tabular-nums text-muted-foreground">{consumers.amps.toFixed(1)} A</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <span className="tabular-nums text-muted-foreground">{consumers.amps.toFixed(1)} A</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </ContextCard>
   );
 };

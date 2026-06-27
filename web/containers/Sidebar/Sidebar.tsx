@@ -64,12 +64,15 @@ const Sidebar: FC<Props> = ({ activeNavigation = 'assistant', boat, sessions, lo
               </div>
               <div>
                 <dt className="text-muted-foreground">LOA</dt>
-                <dd className="font-medium">{boat.specification.dimensions.loaMm} m</dd>
+                <dd className="font-medium">{(boat.specification.dimensions.loaMm / 1000).toFixed(2)} m</dd>
               </div>
-              <div className="col-span-2">
-                <dt className="text-muted-foreground">Home port</dt>
-                <dd className="font-medium">{boat.profile.homePort}</dd>
-              </div>
+
+              {boat.profile.homePort && (
+                <div className="col-span-2">
+                  <dt className="text-muted-foreground">Home port</dt>
+                  <dd className="font-medium">{boat.profile.homePort}</dd>
+                </div>
+              )}
             </dl>
           </div>
         ) : null}
@@ -126,16 +129,18 @@ const Sidebar: FC<Props> = ({ activeNavigation = 'assistant', boat, sessions, lo
             </div>
           ) : (
             <ul className="flex flex-col gap-0.5">
-              {sessions.map((s) => (
-                <li key={s.id}>
+              {sessions.map((session) => (
+                <li key={session.id}>
                   <button
                     type="button"
                     className="flex w-full flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-sidebar-accent/60"
                   >
-                    <span className="line-clamp-1 text-sm font-medium">{s.title}</span>
+                    <span className="line-clamp-1 text-sm font-medium">{session.title}</span>
                     <span className="flex w-full items-center justify-between gap-2">
-                      <span className="line-clamp-1 text-xs text-muted-foreground">{s.preview}</span>
-                      <span className="shrink-0 text-xs text-muted-foreground">{formatRelativeTime(s.updatedAt)}</span>
+                      <span className="line-clamp-1 text-xs text-muted-foreground">{session.preview}</span>
+                      <span className="shrink-0 text-xs text-muted-foreground">
+                        {formatRelativeTime(session.updatedAt)}
+                      </span>
                     </span>
                   </button>
                 </li>

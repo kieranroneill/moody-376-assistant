@@ -1,14 +1,12 @@
-import { Ship } from 'lucide-react';
 import { type FC, useMemo } from 'react';
 
 // components
-import ContextCard from '@/components/context/ContextCard';
+import BoatSummaryContextCard from '@/components/context/BoatSummaryContextCard';
 import InstrumentsContextCard from '@/components/context/InstrumentsContextCard';
 import LogbookContextCard from '@/components/context/LogbookContextCard';
 import MaintenanceContextCard from '@/components/context/MaintenanceContextCard';
 import PowerContextCard from '@/components/context/PowerContextCard';
 import Skeleton from '@/components/ui/Skeleton';
-import Stat from '@/components/ui/Stat';
 
 // enums
 import { AlertSeverityEnum } from '@/enums/notifications';
@@ -68,18 +66,7 @@ const ContextRail: FC<Props> = ({ boat, loading }) => {
       {/*)}*/}
 
       {/* Boat summary */}
-      <ContextCard title="Boat" icon={<Ship className="size-4" />}>
-        <p className="text-sm font-semibold">{boat.profile.name}</p>
-        <p className="text-xs text-muted-foreground">
-          {boat.specification.make} {boat.specification.model} · {boat.profile.year}
-        </p>
-        <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-          <Stat label="Length" value={`${boat.specification.dimensions.loaMm} m`} />
-          {boat.profile.homePort && <Stat label="Home port" value={boat.profile.homePort} />}
-          {boat.profile.callSign && <Stat label="Call sign" value={boat.profile.callSign} />}
-          {boat.profile.hin && <Stat label="Hull ID" value={boat.profile.hin} />}
-        </dl>
-      </ContextCard>
+      <BoatSummaryContextCard profile={boat.profile} specification={boat.specification} />
 
       {/* Weather */}
       {/*<ContextCard*/}
