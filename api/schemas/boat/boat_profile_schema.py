@@ -1,11 +1,11 @@
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from api import schemas
+from api.schemas.defaults import BaseSchema
 
 
-class BoatProfileSchema(schemas.defaults.BaseSchema):
+class BoatProfileSchema(BaseSchema):
     call_sign: str | None = None
     home_port: str | None = None
     hin: str = Field(..., min_length=1)

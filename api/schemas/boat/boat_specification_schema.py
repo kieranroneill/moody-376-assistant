@@ -1,6 +1,6 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from api import schemas
+from api.schemas.defaults import BaseSchema
 
 from .boat_dimensions_schema import BoatDimensionsSchema
 from .boat_engine_schema import BoatEngineSchema
@@ -9,7 +9,7 @@ from .boat_sail_area_schema import BoatSailAreaSchema
 from .boat_tanks_schema import BoatTanksSchema
 
 
-class BoatSpecificationSchema(schemas.defaults.BaseSchema):
+class BoatSpecificationSchema(BaseSchema):
     builder: str | None = None
     construction: str | None = None
     designer: str | None = None

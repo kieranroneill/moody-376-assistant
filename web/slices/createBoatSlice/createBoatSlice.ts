@@ -9,9 +9,10 @@ import type { Slice } from './types';
 import { createLogger } from '@/utilities/logging';
 
 const createBoatSlice: StateCreator<Slice> = (setState, getState) => {
+  console.log(getState());
   const apiOptions: ActionOptions = {
     api: { getState, setState },
-    logger: createLogger(getState().logLevel),
+    logger: createLogger(),
   };
 
   return {

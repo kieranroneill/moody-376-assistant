@@ -1,7 +1,7 @@
-from api import schemas
+from api.schemas.defaults import BaseSchema
 
 
-class BoatDimensionsSchema(schemas.defaults.BaseSchema):
+class BoatDimensionsSchema(BaseSchema):
     ballast_kg: int | None = None
     beam_mm: int
     displacement_kg: int | None = None

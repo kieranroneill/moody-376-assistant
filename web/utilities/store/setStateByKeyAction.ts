@@ -1,8 +1,8 @@
 // types
-import type { ActionOptions } from '@/types/store';
+import type { ActionOptions, Store } from '@/types/store';
 
 export default function setStateByKeyAction<Payload = undefined>(
-  key: string,
+  key: keyof Store,
   { api }: ActionOptions
 ): (payload: Payload) => void {
   return (value) =>

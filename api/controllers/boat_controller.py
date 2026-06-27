@@ -24,7 +24,14 @@ class BoatController:
 
         Raises:
         """
-        profile = await database.get(models.BoatProfileModel, profile_id)
+        #         profile = await database.get(models.BoatProfileModel, profile_id)
+        # TODO: fetch from database
+        profile = models.BoatProfileModel(
+            id="e2d06f1e-78b3-495e-84eb-e6ea1a1b6946",
+            hin="12345",
+            name="Blaise",
+            year=1989,
+        )
 
         if profile is None:
             raise HTTPException(
@@ -47,6 +54,9 @@ class BoatController:
             ) from exception
 
         return schemas.boat.BoatResponseSchema(
+            instruments=[],
+            logbook=[],
+            maintenance=[],
             profile=schemas.boat.BoatProfileSchema(
                 call_sign=profile.call_sign,
                 home_port=profile.home_port,

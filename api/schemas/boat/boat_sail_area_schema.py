@@ -1,9 +1,7 @@
-from pydantic import BaseModel
-
-from api import schemas
+from api.schemas.defaults import BaseSchema
 
 
-class BoatSailAreaSchema(schemas.defaults.BaseSchema):
+class BoatSailAreaSchema(BaseSchema):
     fore_cm2: int | None = None
     main_cm2: int | None = None
     reported_cm2: int | None = None

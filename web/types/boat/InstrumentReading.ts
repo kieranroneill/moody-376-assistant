@@ -1,7 +1,7 @@
 interface InstrumentReading {
   id: string;
   label: string;
-  unit?: string;
+  unit: string | null;
   value: string;
 }
 

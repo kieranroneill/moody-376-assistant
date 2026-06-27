@@ -6,6 +6,9 @@ from .boat_rigging_schema import BoatRiggingSchema
 from .boat_sail_area_schema import BoatSailAreaSchema
 from .boat_specification_schema import BoatSpecificationSchema
 from .boat_tanks_schema import BoatTanksSchema
+from .instrument_reading_schema import InstrumentReadingSchema
+from .logbook_entry_schema import LogbookEntrySchema
+from .maintenance_item_schema import MaintenanceItemSchema
 
 __all__ = [
     "BoatDimensionsSchema",
@@ -16,4 +19,7 @@ __all__ = [
     "BoatSailAreaSchema",
     "BoatSpecificationSchema",
     "BoatTanksSchema",
+    "InstrumentReadingSchema",
+    "LogbookEntrySchema",
+    "MaintenanceItemSchema",
 ]

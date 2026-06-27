@@ -1,3 +1,4 @@
+import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -23,6 +24,7 @@ def _app() -> FastAPI:
 
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
+    print(utilities.database.url())
     database_engine = create_async_engine(utilities.database.url(), pool_pre_ping=True)
 
     # attach the initialized agent, database (session factory) and data path so it is available for each route
