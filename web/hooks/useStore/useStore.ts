@@ -9,7 +9,7 @@ import { StoreContext } from '@/contexts';
 import StoreProvider from '@/providers/StoreProvider';
 
 // types
-import type { Store } from '@/types/stores';
+import type { Store } from '@/types/store';
 
 export default function useStore<T>(selector: (state: Store) => T): T {
   // contexts

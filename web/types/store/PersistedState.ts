@@ -1,5 +1,5 @@
 // types
-import type Store from 'types/stores/Store';
+import type Store from './Store';
 
 type PersistedState = Pick<Store, 'boat'>;
 

@@ -1,7 +1,7 @@
 import type { StateCreator as ZustandStateCreator } from 'zustand';
 
 // types
-import type Store from 'types/stores/Store';
+import type Store from './Store';
 import type PersistedState from './PersistedState';
 
 type StateCreator<Slice> = ZustandStateCreator<

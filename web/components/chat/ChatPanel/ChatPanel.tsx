@@ -24,7 +24,7 @@ import type { Props } from './types';
 
 const ChatPanel: FC<Props> = ({
   activity,
-  boatDetails,
+  boat,
   error,
   isStreaming,
   messages,
@@ -60,10 +60,10 @@ const ChatPanel: FC<Props> = ({
       {onOpenContext && (
         <div className="flex items-center justify-between border-b border-border px-4 py-3 lg:hidden">
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{boatDetails?.name ?? t('common:titles.app')}</p>
+            <p className="truncate text-sm font-semibold">{boat?.profile.name ?? t('common:titles.app')}</p>
 
             <p className="truncate text-xs text-muted-foreground">
-              {boatDetails ? `${boatDetails.make} ${boatDetails.model}` : t('common:captions.connecting')}
+              {boat ? `${boat.specification.make} ${boat.specification.model}` : t('common:captions.connecting')}
             </p>
           </div>
 
@@ -77,7 +77,7 @@ const ChatPanel: FC<Props> = ({
 
       <ScrollArea className="min-h-0 flex-1">
         <div ref={scrollRef} className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6">
-          {!hasMessages && !activity && <ChatEmptyState boat={boatDetails} onSelect={sendMessage} />}
+          {!hasMessages && !activity && <ChatEmptyState boat={boat} onSelect={sendMessage} />}
 
           {messages.map((message) => (
             <MessageBubble key={message.id} role={message.role} timestamp={message.timestamp}>

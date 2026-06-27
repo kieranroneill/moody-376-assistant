@@ -1,10 +1,8 @@
 'use client';
-
 import { Anchor, MessageSquare, Plus, Wrench, Cpu, NotebookPen, Settings } from 'lucide-react';
 import { type FC, useMemo } from 'react';
 
 // components
-import ConnectionStatus from '@/components/boat/ConnectionStatus';
 import Button from '@/components/ui/Button';
 import ScrollArea from '@/components/ui/ScrollArea';
 import Separator from '@/components/ui/Separator';
@@ -17,15 +15,7 @@ import type { NavigationItem, Props } from './types';
 import { formatRelativeTime } from '@/utilities/date';
 import { cn } from '@/utilities/styles';
 
-const Sidebar: FC<Props> = ({
-  activeNavigation = 'assistant',
-  boatDetails,
-  connection,
-  sessions,
-  loading,
-  onNewChat,
-  onNavigate,
-}) => {
+const Sidebar: FC<Props> = ({ activeNavigation = 'assistant', boat, sessions, loading, onNewChat, onNavigate }) => {
   // memos
   const navigationItems: NavigationItem[] = useMemo(
     () => [
@@ -47,7 +37,7 @@ const Sidebar: FC<Props> = ({
         </div>
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold tracking-tight">Helm Assistant</p>
-          <ConnectionStatus status={connection} />
+          {/*<ConnectionStatus status={connection} />*/}
         </div>
       </div>
 
@@ -61,24 +51,24 @@ const Sidebar: FC<Props> = ({
             <Skeleton className="h-3 w-40" />
             <Skeleton className="h-3 w-24" />
           </div>
-        ) : boatDetails ? (
+        ) : boat ? (
           <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/40 p-3">
-            <p className="text-sm font-semibold leading-tight">{boatDetails.name}</p>
+            <p className="text-sm font-semibold leading-tight">{boat.profile.name}</p>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {boatDetails.make} {boatDetails.model}
+              {boat.specification.make} {boat.specification.model}
             </p>
             <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
               <div>
                 <dt className="text-muted-foreground">Year</dt>
-                <dd className="font-medium">{boatDetails.year}</dd>
+                <dd className="font-medium">{boat.profile.year}</dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">LOA</dt>
-                <dd className="font-medium">{boatDetails.lengthMeters} m</dd>
+                <dd className="font-medium">{boat.specification.dimensions.loaMm} m</dd>
               </div>
               <div className="col-span-2">
                 <dt className="text-muted-foreground">Home port</dt>
-                <dd className="font-medium">{boatDetails.homePort}</dd>
+                <dd className="font-medium">{boat.profile.homePort}</dd>
               </div>
             </dl>
           </div>

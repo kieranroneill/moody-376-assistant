@@ -1,11 +1,11 @@
 // types
-import type { BoatSpecification } from '@/types/boat';
+import type { BoatContext } from '@/types/boat';
 import type { ActivityMessage, ChatMessage } from '@/types/chat';
 
 interface Props {
-  activity: ActivityMessage | null;
-  boatDetails: BoatSpecification | null;
-  error: string | null;
+  activity?: ActivityMessage;
+  boat?: BoatContext;
+  error?: string;
   isStreaming: boolean;
   messages: ChatMessage[];
   onOpenContext?: () => void;

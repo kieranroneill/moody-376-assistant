@@ -1,8 +1,8 @@
 // types
-import type { BoatSpecification } from '@/types/boat';
+import type { BoatContext } from '@/types/boat';
 
 interface Props {
-  boat: BoatSpecification | null;
+  boat?: BoatContext;
   onSelect: (prompt: string) => void;
 }
 

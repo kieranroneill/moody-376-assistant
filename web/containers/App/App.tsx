@@ -12,9 +12,6 @@ import Sheet from '@/components/ui/Sheet';
 // containers
 import Sidebar from '@/containers/Sidebar';
 
-// enums
-import { ConnectionStatusEnum } from '@/enums';
-
 // hooks
 import useStore from '@/hooks/useStore';
 import useChatSession from '@/hooks/useChatSession';
@@ -66,12 +63,11 @@ const App: FC = () => {
       <aside className="hidden w-72 shrink-0 border-r border-border lg:block">
         <Sidebar
           activeNavigation={activeNavigation}
-          boatDetails={boat?.specification}
-          connection={ConnectionStatusEnum.Syncing}
           sessions={sessions}
           loading={fetchingBoat}
           onNewChat={handleOnNewChat}
           onNavigate={setActiveNavigation}
+          {...(boat && { boat })}
         />
       </aside>
 
@@ -110,20 +106,20 @@ const App: FC = () => {
 
         <div className="min-h-0 flex-1">
           <ChatPanel
-            activity={activity}
-            boatDetails={boat?.specification || null}
-            error={chatError}
             isStreaming={isStreaming}
             messages={messages}
             sendMessage={sendChatMessage}
             retryMessage={retryChatMessage}
+            {...(activity && { activity })}
+            {...(boat && { boat })}
+            {...(chatError && { error: chatError })}
           />
         </div>
       </main>
 
       {/* Desktop context rail */}
       <aside className="hidden w-80 shrink-0 overflow-y-auto border-l border-border p-4 xl:block 2xl:w-96">
-        <ContextRail context={boat} loading={fetchingBoat} />
+        <ContextRail loading={fetchingBoat} {...(boat && { boat })} />
       </aside>
 
       {/* Mobile/tablet navigation drawer */}
@@ -137,12 +133,11 @@ const App: FC = () => {
 
           <Sidebar
             activeNavigation={activeNavigation}
-            boatDetails={boat?.specification}
-            connection={ConnectionStatusEnum.Syncing}
             sessions={sessions}
             loading={fetchingBoat || chatSessionsLoading}
             onNavigate={handleOnMobileNavigate}
             onNewChat={handleOnNewChat}
+            {...(boat && { boat })}
           />
         </Sheet.Content>
       </Sheet>
@@ -157,7 +152,7 @@ const App: FC = () => {
           </Sheet.Header>
 
           <div className="p-4">
-            <ContextRail context={boat} loading={fetchingBoat} />
+            <ContextRail loading={fetchingBoat} {...(boat && { boat })} />
           </div>
         </Sheet.Content>
       </Sheet>

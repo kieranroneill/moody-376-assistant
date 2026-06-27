@@ -1,7 +1,7 @@
 import type { StoreApi } from 'zustand';
 
 // types
-import type Store from 'types/stores/Store';
+import type Store from './Store';
 
 interface ActionAPI {
   getState: StoreApi<Store>['getState'];

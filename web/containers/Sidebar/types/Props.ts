@@ -1,14 +1,10 @@
-// enums
-import { ConnectionStatusEnum } from '@/enums/api';
-
 // types
-import type { BoatSpecification } from '@/types/boat';
+import type { BoatContext } from '@/types/boat';
 import type { ChatSessionSummary } from '@/types/chat';
 
 interface Props {
   activeNavigation?: string;
-  boatDetails?: BoatSpecification;
-  connection: ConnectionStatusEnum;
+  boat?: BoatContext;
   loading: boolean;
   onNewChat: () => void;
   onNavigate?: (key: string) => void;

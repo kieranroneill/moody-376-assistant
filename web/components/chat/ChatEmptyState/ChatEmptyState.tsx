@@ -21,11 +21,13 @@ const ChatEmptyState: FC<Props> = ({ boat, onSelect }) => {
         </div>
         <div className="space-y-2">
           <h2 className="text-balance text-xl font-semibold tracking-tight">
-            {t('chat:captions.welcome', { boat: boat?.name ?? 'your boat' })}
+            {t('chat:captions.welcome', { boat: boat?.profile.name ?? 'your boat' })}
           </h2>
 
           <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
-            {t('chat:captions.welcomeHint', { boat: boat ? ` ${boat.make} ${boat.model}.` : '' })}
+            {t('chat:captions.welcomeHint', {
+              boat: boat ? ` ${boat.specification.make} ${boat.specification.model}.` : '',
+            })}
           </p>
         </div>
       </div>

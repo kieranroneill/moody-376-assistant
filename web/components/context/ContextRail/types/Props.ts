@@ -3,7 +3,7 @@ import type { BoatContext } from '@/types/boat';
 import type { BasicComponentProps } from '@/types/ui';
 
 interface Props extends BasicComponentProps {
-  context: BoatContext | null;
+  boat?: BoatContext;
   loading: boolean;
 }
 

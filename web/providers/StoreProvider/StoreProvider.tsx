@@ -9,7 +9,7 @@ import { StoreContext } from '@/contexts';
 import createStore from '@/store';
 
 // types
-import type { Store } from '@/types/stores';
+import type { Store } from '@/types/store';
 
 const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
   // refs
