@@ -1,6 +1,6 @@
 interface ChatRequest {
   content: string;
-  session_id?: string;
+  sessionId?: string;
 }
 
 export default ChatRequest;

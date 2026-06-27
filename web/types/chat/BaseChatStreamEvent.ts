@@ -1,6 +1,6 @@
 interface BaseChatStreamEvent {
-  message_id: string;
-  session_id: string;
+  messageId: string;
+  sessionId: string;
 }
 
 export default BaseChatStreamEvent;

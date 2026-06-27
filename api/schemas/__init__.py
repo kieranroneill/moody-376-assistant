@@ -1,3 +1,3 @@
-from . import boat, chat, errors
+from . import boat, chat, defaults, errors
 
-__all__ = ["boat", "chat", "errors"]
+__all__ = ["boat", "chat", "defaults", "errors"]

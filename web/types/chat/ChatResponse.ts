@@ -3,7 +3,7 @@ import type ChatMessage from './ChatMessage';
 
 interface ChatResponse {
   messages: ChatMessage[];
-  session_id: string;
+  sessionId: string;
 }
 
 export default ChatResponse;

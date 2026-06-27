@@ -1,12 +1,12 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from api import enums
+from api import enums, schemas
 
 
-class ChatMessageSchema(BaseModel):
+class ChatMessageSchema(schemas.defaults.BaseSchema):
     activity: enums.chat.AssistantActivityEnum | None = None
     content: str = Field(..., min_length=1)
     id: UUID

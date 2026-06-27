@@ -93,7 +93,7 @@ export default function useChatSession(): UseChatSessionState {
           if (event.type === ChatStreamEventTypeEnum.Error) {
             console.error('chat stream error:', event.error);
 
-            setMessages((prev) => prev.filter((message) => message.id !== event.message_id));
+            setMessages((prev) => prev.filter((message) => message.id !== event.messageId));
 
             throw new Error(event.error.message);
           }
@@ -105,7 +105,7 @@ export default function useChatSession(): UseChatSessionState {
 
             setMessages((previousMessages) =>
               previousMessages.map((message) =>
-                message.id === event.message_id
+                message.id === event.messageId
                   ? {
                       ...message,
                       streaming: false,
@@ -122,7 +122,7 @@ export default function useChatSession(): UseChatSessionState {
             setActivity({
               activity: event.activity,
               content: event.content,
-              id: event.message_id,
+              id: event.messageId,
             });
 
             continue;
@@ -131,7 +131,7 @@ export default function useChatSession(): UseChatSessionState {
           setActivity(null);
 
           setMessages((previousMessages) => {
-            const previousMessage = previousMessages.find(({ id }) => id === event.message_id);
+            const previousMessage = previousMessages.find(({ id }) => id === event.messageId);
 
             if (previousMessage) {
               return previousMessages;
@@ -141,7 +141,7 @@ export default function useChatSession(): UseChatSessionState {
               ...previousMessages,
               {
                 content: '',
-                id: event.message_id,
+                id: event.messageId,
                 role: MessageRoleEnum.Assistant,
                 streaming: true,
                 timestamp: new Date().toISOString(),
@@ -149,7 +149,7 @@ export default function useChatSession(): UseChatSessionState {
             ];
           });
 
-          pendingContentMap.set(event.message_id, `${pendingContentMap.get(event.message_id) ?? ''}${event.content}`);
+          pendingContentMap.set(event.messageId, `${pendingContentMap.get(event.messageId) ?? ''}${event.content}`);
 
           if (!revealTimer) {
             revealTimer = setInterval(() => {

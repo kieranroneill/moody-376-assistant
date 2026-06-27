@@ -18,7 +18,11 @@ export default function useBoatContext(): UseBoatContextState {
     const apiService = new APIService();
 
     setLoading(true);
-    setBoatContext(await apiService.getContext());
+
+    try {
+      const [] = await Promise.all([]);
+    } catch (error) {}
+    setBoatContext(await apiService.getBoat());
     setLoading(false);
   }, [setBoatContext, setLoading]);
 
