@@ -1,5 +1,4 @@
 'use client';
-
 import { useT } from 'next-i18next/client';
 import { Menu, PanelRight } from 'lucide-react';
 import { type FC, useCallback, useEffect, useState } from 'react';
@@ -14,17 +13,19 @@ import Sheet from '@/components/ui/Sheet';
 import Sidebar from '@/containers/Sidebar';
 
 // enums
-import { ConnectionStatusEnum } from '@/enums/api';
+import { ConnectionStatusEnum } from '@/enums';
 
 // hooks
-import useBoatContext from '@/hooks/useBoatContext';
+import useStore from '@/hooks/useStore';
 import useChatSession from '@/hooks/useChatSession';
 import useChatSessions from '@/hooks/useChatSessions';
 
 const App: FC = () => {
   const { t } = useT();
   // hooks
-  const { boatContext, fetch: fetchBoatContext, loading: boatContextLoading } = useBoatContext();
+  const boat = useStore(({ boat }) => boat);
+  const fetchBoat = useStore(({ fetchBoat }) => fetchBoat);
+  const fetchingBoat = useStore(({ fetchingBoat }) => fetchingBoat);
   const {
     activity,
     error: chatError,
@@ -55,7 +56,7 @@ const App: FC = () => {
   }, [resetChat, setNavigationOpen]);
 
   useEffect(() => {
-    void fetchBoatContext();
+    void fetchBoat();
     void fetchChatSessions();
   }, []);
 
@@ -65,10 +66,10 @@ const App: FC = () => {
       <aside className="hidden w-72 shrink-0 border-r border-border lg:block">
         <Sidebar
           activeNavigation={activeNavigation}
-          boatDetails={boatContext?.specification}
-          connection={boatContext?.connection ?? ConnectionStatusEnum.Syncing}
+          boatDetails={boat?.specification}
+          connection={ConnectionStatusEnum.Syncing}
           sessions={sessions}
-          loading={boatContextLoading}
+          loading={fetchingBoat}
           onNewChat={handleOnNewChat}
           onNavigate={setActiveNavigation}
         />
@@ -90,11 +91,11 @@ const App: FC = () => {
             </Button>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{boatContext?.specification?.name ?? 'Helm Assistant'}</p>
+              <p className="truncate text-sm font-semibold">{boat?.profile.name ?? 'Helm Assistant'}</p>
 
               <p className="truncate text-xs text-muted-foreground">
-                {boatContext?.specification
-                  ? `${boatContext.specification.make} ${boatContext.specification.model}`
+                {boat?.specification
+                  ? `${boat.specification.make} ${boat.specification.model}`
                   : t('common:captions.connecting')}
               </p>
             </div>
@@ -110,7 +111,7 @@ const App: FC = () => {
         <div className="min-h-0 flex-1">
           <ChatPanel
             activity={activity}
-            boatDetails={boatContext?.specification || null}
+            boatDetails={boat?.specification || null}
             error={chatError}
             isStreaming={isStreaming}
             messages={messages}
@@ -122,7 +123,7 @@ const App: FC = () => {
 
       {/* Desktop context rail */}
       <aside className="hidden w-80 shrink-0 overflow-y-auto border-l border-border p-4 xl:block 2xl:w-96">
-        <ContextRail context={boatContext} loading={boatContextLoading} />
+        <ContextRail context={boat} loading={fetchingBoat} />
       </aside>
 
       {/* Mobile/tablet navigation drawer */}
@@ -136,10 +137,10 @@ const App: FC = () => {
 
           <Sidebar
             activeNavigation={activeNavigation}
-            boatDetails={boatContext?.specification}
-            connection={boatContext?.connection ?? ConnectionStatusEnum.Syncing}
+            boatDetails={boat?.specification}
+            connection={ConnectionStatusEnum.Syncing}
             sessions={sessions}
-            loading={boatContextLoading || chatSessionsLoading}
+            loading={fetchingBoat || chatSessionsLoading}
             onNavigate={handleOnMobileNavigate}
             onNewChat={handleOnNewChat}
           />
@@ -156,7 +157,7 @@ const App: FC = () => {
           </Sheet.Header>
 
           <div className="p-4">
-            <ContextRail context={boatContext} loading={boatContextLoading} />
+            <ContextRail context={boat} loading={fetchingBoat} />
           </div>
         </Sheet.Content>
       </Sheet>

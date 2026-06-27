@@ -7,6 +7,9 @@ import type { ReactElement, ReactNode } from 'react';
 // configs
 import i18nConfig from '@/i18n.config';
 
+// providers
+import StoreProvider from '@/providers/StoreProvider';
+
 // styles
 import './globals.css';
 
@@ -65,9 +68,11 @@ const RootLayout: (props: Props) => Promise<ReactElement> = async ({ children })
   return (
     <html lang={lng} className={`${geistSans.variable} ${geistMono.variable} bg-background`}>
       <body className="font-sans antialiased">
-        <I18nProvider language={lng} resources={resources}>
-          {children}
-        </I18nProvider>
+        <StoreProvider>
+          <I18nProvider language={lng} resources={resources}>
+            {children}
+          </I18nProvider>
+        </StoreProvider>
       </body>
     </html>
   );
