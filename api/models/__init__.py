@@ -1,7 +1,3 @@
-from .base_model import BaseModel
-from .boat_profile_model import BoatProfileModel
+from . import boat, defaults
 
-__all__ = [
-    "BaseModel",
-    "BoatProfileModel",
-]
+__all__ = ["boat", "defaults"]

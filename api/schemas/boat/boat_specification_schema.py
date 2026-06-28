@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import Field
 
 from api.schemas.defaults import BaseSchema
@@ -17,6 +19,7 @@ class BoatSpecificationSchema(BaseSchema):
     engine: BoatEngineSchema | None = None
     first_built: int | None = None
     hull_type: str | None = None
+    id: UUID
     last_built: int | None = None
     make: str = Field(..., min_length=1)
     model: str = Field(..., min_length=1)

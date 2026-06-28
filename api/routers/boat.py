@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends
 
 from api import controllers, dependencies, enums, schemas
@@ -8,10 +10,8 @@ router = APIRouter(
 )
 
 
-@router.get("", response_model=schemas.boat.BoatResponseSchema)
-async def boat(data_path=Depends(dependencies.data_path), database=Depends(dependencies.database)):
+@router.get("/{profile_id}", response_model=schemas.boat.BoatResponseSchema)
+async def boat(profile_id: UUID, database=Depends(dependencies.database)):
     controller = controllers.BoatController()
 
-    return await controller.boat(
-        specification_path=data_path / "static" / "boat_specification.json", database=database, profile_id="test"
-    )
+    return await controller.boat(database=database, profile_id=profile_id)

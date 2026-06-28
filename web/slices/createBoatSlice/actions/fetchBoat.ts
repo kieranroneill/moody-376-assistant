@@ -17,7 +17,8 @@ export default function fetchBoat({ api, logger }: ActionOptions): () => Promise
     }));
 
     try {
-      boat = await apiService.getBoat();
+      // TODO: pass from somewhere
+      boat = await apiService.getBoat('cc7dc1c4-fe1d-47af-bce2-c3adb40eb1d0');
 
       logger.debug(`${__functionName}:`, boat);
 

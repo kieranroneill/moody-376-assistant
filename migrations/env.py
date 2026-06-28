@@ -5,7 +5,7 @@ from alembic import context
 from sqlalchemy import URL, engine_from_config, pool
 
 from api import utilities
-from api.models import BaseModel
+from api.models.defaults import BaseModel
 
 # gets alembic.ini file
 config = context.config

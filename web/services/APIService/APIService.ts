@@ -48,11 +48,11 @@ export default class APIService {
    * public methods
    */
 
-  public async getBoat(signal?: AbortSignal): Promise<BoatContext> {
+  public async getBoat(profileID: string, signal?: AbortSignal): Promise<BoatContext> {
     let response: Response;
 
     try {
-      response = await fetch(`${RouteEnum.Base}${RouteEnum.Boat}`, {
+      response = await fetch(`${RouteEnum.Base}${RouteEnum.Boat}/${profileID}`, {
         headers: {
           'Content-Type': 'application/json',
         },
