@@ -87,7 +87,9 @@ const App: FC = () => {
             </Button>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{boat?.profile.name ?? 'Helm Assistant'}</p>
+              <p className="truncate text-sm font-semibold">
+                {boat?.profile.name ?? process.env.NEXT_PUBLIC_APP_TITLE}
+              </p>
 
               <p className="truncate text-xs text-muted-foreground">
                 {boat?.specification

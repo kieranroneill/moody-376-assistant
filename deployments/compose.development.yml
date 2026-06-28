@@ -84,6 +84,7 @@ services:
       - api
     environment:
       API_BASE_URL: ${API_BASE_URL:-http://api:3000}
+      NEXT_PUBLIC_APP_TITLE: ${APP_TITLE:-Oarbit}
       NEXT_PUBLIC_LOG_LEVEL: ${LOG_LEVEL:-DEBUG}
       NODE_ENV: development
     image: kieranroneill/oarbit-web:development

@@ -36,7 +36,7 @@ const Sidebar: FC<Props> = ({ activeNavigation = 'assistant', boat, sessions, lo
           <Anchor className="size-4" aria-hidden="true" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold tracking-tight">Helm Assistant</p>
+          <p className="truncate text-sm font-semibold tracking-tight">{process.env.NEXT_PUBLIC_APP_TITLE}</p>
           {/*<ConnectionStatus status={connection} />*/}
         </div>
       </div>

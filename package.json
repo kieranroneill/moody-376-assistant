@@ -1,7 +1,7 @@
 {
-  "name": "moody-376-assistant",
+  "name": "oarbit",
   "private": true,
-  "description": "The Moody 376 Assistant is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for the vessel.",
+  "description": "Oarbit is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for your vessel.",
   "repository": {
     "type": "git",
     "url": "https://github.com/kieranroneill/moody-376-assistant"

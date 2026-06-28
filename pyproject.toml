@@ -1,7 +1,7 @@
 [project]
-name = "moody_376_assistant"
+name = "oarbit"
 version = "1.0.0"
-description = "The Moody 376 Assistant is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for the vessel."
+description = "Oarbit is an onboard knowledge and maintenance copilot that centralizes technical documents, service logs, and operational notes for your vessel."
 authors = [
   { name = "Kieran O'Neill", email = "hello@kieranoneill.com" }
 ]
@@ -21,7 +21,7 @@ line-length = 120
 target-version = ["py311"]
 
 [tool.isort]
-known_first_party = ["moody_376_assistant"]
+known_first_party = ["oarbit"]
 profile = "black"
 
 [tool.pylint."messages control"]

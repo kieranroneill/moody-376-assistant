@@ -60,7 +60,7 @@ const ChatPanel: FC<Props> = ({
       {onOpenContext && (
         <div className="flex items-center justify-between border-b border-border px-4 py-3 lg:hidden">
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{boat?.profile.name ?? t('common:titles.app')}</p>
+            <p className="truncate text-sm font-semibold">{boat?.profile.name ?? process.env.NEXT_PUBLIC_APP_TITLE}</p>
 
             <p className="truncate text-xs text-muted-foreground">
               {boat ? `${boat.specification.make} ${boat.specification.model}` : t('common:captions.connecting')}
