@@ -14,7 +14,8 @@ from api import routers, utilities
 
 
 def _app() -> FastAPI:
-    app = FastAPI(lifespan=_lifespan, title="Boat Assistant API")
+    app_title = os.environ["APP_TITLE"]
+    app = FastAPI(lifespan=_lifespan, title=f"{app_title} API")
 
     app.include_router(routers.boat.router)
     app.include_router(routers.chat.router)

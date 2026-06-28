@@ -2,27 +2,9 @@ SHELL := /bin/bash
 
 all: install
 
-dev:
-	docker compose \
-	 	-f ./deployments/compose.development.yml \
-	 	--env-file .env.dev \
-		up \
-		--build
-
-format:
-	${MAKE} format_js
-	${MAKE} format_py
-
-format_js:
-	@echo ">>> formatting javascript files"
-	pnpm format
-
-format_py:
-	@echo ">>> formatting python files"
-	python3 -m venv .venv
-	source .venv/bin/activate && \
-		python3 -m isort . && \
-		python3 -m black .
+###
+# installation
+###
 
 install:
 	${MAKE} install_js_deps
@@ -48,6 +30,92 @@ install_py_deps:
 		pip install -r requirements.txt && \
 		deactivate
 
+###
+# docker
+###
+
+dev:
+	docker compose \
+	 	-f ./deployments/compose.development.yml \
+	 	--env-file .env.dev \
+		up \
+		--build
+
+start:
+	docker compose \
+		-f ./deployments/compose.yml \
+		--env-file .env \
+		up \
+		--build
+
+###
+# database
+###
+
+database_downgrade:
+	docker compose \
+		-f ./deployments/compose.yml \
+		run \
+		--build \
+		--rm api \
+		alembic downgrade -1
+
+database_downgrade_dev:
+	docker compose \
+		-f ./deployments/compose.development.yml \
+		run \
+		--build \
+		--rm api \
+		alembic downgrade -1
+
+database_upgrade:
+	docker compose \
+		-f ./deployments/compose.yml \
+		run \
+		--build \
+		--rm api \
+		alembic upgrade head
+
+database_upgrade_dev:
+	docker compose \
+		-f ./deployments/compose.development.yml \
+		run \
+		--build \
+		--rm api \
+		alembic upgrade head
+
+create_migration:
+	test -n "$(MESSAGE)" || (echo 'Usage: make create_migration MESSAGE="adds boats table"' && exit 1)
+	docker compose \
+		-f ./deployments/compose.development.yml \
+		 run \
+		--build \
+		 --rm api \
+		alembic revision --autogenerate -m "$(MESSAGE)"
+
+###
+# formatting
+###
+
+format:
+	${MAKE} format_js
+	${MAKE} format_py
+
+format_js:
+	@echo ">>> formatting javascript files"
+	pnpm format
+
+format_py:
+	@echo ">>> formatting python files"
+	python3 -m venv .venv
+	source .venv/bin/activate && \
+		python3 -m isort . && \
+		python3 -m black .
+
+###
+# linting
+###
+
 lint:
 	${MAKE} lint_py
 
@@ -57,22 +125,9 @@ lint_py:
 	source .venv/bin/activate && \
 		python3 -m flake8 .
 
-run_api:
-	@echo ">>> running api"
-	python3 -m venv .venv
-	source .venv/bin/activate && \
-		python3 -m api.main
-
-run_web:
-	@echo ">>> running web"
-	pnpm start
-
-start:
-	docker compose \
-		-f ./deployments/compose.yml \
-		--env-file .env \
-		up \
-		--build
+###
+# testing
+###
 
 test:
 	${MAKE} test_unit
@@ -85,3 +140,17 @@ test_py_unit:
 	python3 -m venv .venv
 	source .venv/bin/activate && \
 		python3 -m pytest -vv -s --log-cli-level=ERROR api
+
+###
+# misc.
+###
+
+run_api:
+	@echo ">>> running api"
+	python3 -m venv .venv
+	source .venv/bin/activate && \
+		python3 -m api.main
+
+run_web:
+	@echo ">>> running web"
+	pnpm start

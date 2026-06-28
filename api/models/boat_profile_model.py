@@ -8,7 +8,7 @@ from .base_model import BaseModel
 
 
 class BoatProfileModel(BaseModel):
-    __tablename__ = "boats"
+    __tablename__ = "boat_profiles"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
